@@ -1,0 +1,19 @@
+<% include partials/otherheader %>
+<% include partials/center %>
+<% if(user.username){%>
+    <% if(user.username == session.user){%>
+        <p style="color:green">You are logged in as <%=user.username%></p>
+    <%}%>
+    <div class="inline">
+        <h1><%=session.user%></h1>
+        <img src="/img/<%=user.gravatar%>" class="img-box">
+    </div>
+    <% for(var i = 0; i < docs.length; i++){%>
+        <a href="/websites/<%=docs[i]._id%>">
+            <p><%=docs[i].name%></p>
+        </a>
+    <%}%>
+<%}else{%>
+    <p><%=user%></p>
+<%}%>
+<% include partials/footer %>

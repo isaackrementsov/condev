@@ -1,0 +1,15 @@
+<% include partials/header %>
+<% include partials/center%>
+<% include partials/search %>
+<%if(docs.length){%>
+    <p>Your search results...</p>
+    <% for(var i= 0; i < docs.length; i++){%>
+            <a href="websites/<%=docs[i].document._id%>" class="submit" style="font-size:4vh;">
+                <p><%=docs[i].document.name%></p>
+                <p><%=docs[i].document.author%></p>
+            </a>
+    <%}%>
+<%}else{%>
+    <p>Sorry, no results found.</p>
+<%}%>
+<% include partials/footer %>

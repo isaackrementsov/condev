@@ -1,0 +1,21 @@
+<ul class="navbar">
+    <li><a href="/"><h1 class="navlink">ConDev</h1></a></li>
+    <li><a href="/" class="navlink"><i class="material-icons">search</i></a></li>
+    <% if(session.userId){%>
+        <li><form action="/logout" method="post" class="link">
+            <label for="btn">
+                <a class="navlink"><i class="material-icons">exit_to_app</i></a>
+                <input type="submit" value="Logout" class="navlink" id="btn" style="display:none;">
+            </label>
+        </form></li>
+        <% if(session.dev){%>
+            <li><a href="/devs/<%=session.user%>" class="navlink avatar"><img src="/img/<%=session.gravName%>" class="img-box"></a></li>
+        <%}else{%>
+            <li><a href="/clients/<%=session.user%>" class="navlink avatar"><img src="/img/<%=session.gravName%>" class="img-box"></a></li>
+            <li><a href="/client/websites" class="navlink"><i class="material-icons">note_add</i></a></li>
+        <%}%>
+    <%}else{%>
+        <li><a href="/signup"class="navlink"><i class="material-icons">person_add</i></a></li>
+        <li><a href="/login" class="navlink"><i class="material-icons">account_circle</i></a></li> 
+    <%}%>
+</ul>

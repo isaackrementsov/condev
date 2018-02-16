@@ -1,0 +1,54 @@
+<script>
+    function opendiv(value){
+        var div = document.getElementById(value);
+        if(div.style.display == "block"){
+            div.style.display = " none"
+        }else{
+            div.style.display = "block"
+        }
+    }
+    function closediv(value){
+        var div = document.getElementById(value);
+        div.style.display = "none"
+    }
+    function openMany(div1, div2){
+        opendiv(div1);
+        closediv(div2)
+    }
+    var jobName = {
+        elemType: "input",
+        type: "text",
+        placeholder: "Job name",
+        class: "titleUpd jobName", 
+    } 
+    var numName = {
+        elemType: "input",
+        type: "number",
+        placeholder: "Payment (USD)",
+        class: "titleUpd numName"
+    }
+    function createDiv(atts, prnt){
+        var elem = document.createElement(atts.elemType);
+        for(key in atts){
+            if(key !== "elemType"){
+                var att = document.createAttribute(key);
+                att.value = atts[key];
+                elem.setAttributeNode(att);
+            }
+        }
+        document.getElementById(prnt).appendChild(elem)
+    }
+    function multiExec(function1, function2, function3){
+        function1;
+        function2;
+        function3
+    }
+    function amalg(cls, cls2, id){
+        var array = document.getElementsByClassName(cls);
+        var array2 = document.getElementsByClassName(cls2);
+        var input = document.getElementById(id);
+        for(var i = 0; i < array.length; i++){
+            input.value = array[i].value + "," + array2[i].value + "]"
+        }
+    }
+</script>

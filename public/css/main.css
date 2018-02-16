@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+html, body {
+    margin: 0;
+    font-family: 'Helvetica', arial, sans-serif;
+    color: #474747;
+    font-size: 3vh;
+    text-decoration: none;
+    background-color: whitesmoke;
+}
+.content {
+    padding: 2vh 2vw;
+    margin: 0;
+}
+.tiled {
+    color: inherit;
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    top: 12vh;
+}
+.item:hover .layer {
+    color: white;
+    opacity: 1;
+}
+.item {
+    width: auto;
+    background-repeat: no-repeat;
+    position: relative;
+    float: top;
+    float: left;
+    margin-right: 1vw;
+}
+.item img {
+    width: auto;
+    height: 40vh;
+}
+.layer {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(100, 100, 100, 0.5);   
+    color: transparent;
+    transition: .5s ease;
+    position: absolute;
+    opacity: 0;
+}
+.navbar h1 {
+    font-weight: bold;
+    font-size: 6vh;
+}
+h1 {
+    font-weight: normal;
+    font-size: 5vh;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+.navbar {
+    margin: 0;
+    padding: 0;
+    position: sticky;
+    background-color: #FCFCFC;
+}
+.navbar li, .link {
+   display: inline;
+   position: sticky;
+}
+.navlink{
+    padding: 2vh 1.5vw;
+    display: inline-block;
+    margin: 0; 
+    transition: .5s ease-in-out;
+    background-color: transparent;
+    border-radius: 5px;
+    border-style: hidden;
+    font-size: 3vh;
+    color: darkslategrey;
+}
+
+.navlink:hover, .submit:hover{
+    background-color:darkslategrey;
+    color: white;
+}
+a.navlink, input.navlink {
+    float: right;
+    margin-bottom: 1.5vh;
+    margin-top: 1.7vh;
+    margin-right: 1.4vw;
+}
+.slide {
+    display: none;
+}
+.slide img {
+    width: 100%;
+}
+.slideshow-container {
+    max-width: 500px;
+    position: relative;
+    text-align: center;
+    margin: 3vh auto;
+}
+.next, .prev {
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -7vh;
+    color: white;
+    cursor: pointer;
+    padding: 2vh;
+    transition: .5s ease-in-out;
+}
+.next {
+    right: 0;
+}
+.prev {
+    left: 0;
+}
+.next:hover, .prev:hover {
+    background-color: darkslategrey;
+}
+input[type="text"], input[type="number"], input[type="password"] {
+    border-style: hidden;
+    border-color: transparent;
+    border-bottom-style: solid;
+    border-color: lightgrey;
+    outline: none;
+    font-weight: normal;
+    background-color: transparent;
+    transition: .5s ease-in-out;
+    height: 5vh;
+    width: 10vw;
+}
+input:focus, input:hover {
+    border-bottom-color: darkslategray;
+}
+input:focus::placeholder, input:hover::placeholder, .textarea:focus::placeholder, .textarea:hover::placeholder{
+    color: darkslategrey;
+}
+input::placeholder, .textarea::placeholder {
+    color: darkgrey;
+}
+.description {
+    width: 40vw;
+}
+input.titleUpd{
+    width: 15vw;
+    height: 7vh;
+    text-align: center;
+    font-size: 3vh; 
+}
+.submit {
+    border-style: solid;
+    border-radius: 1px;
+    background-color: transparent;
+    border-color: darkslategrey; 
+    border-width: 1px;
+    padding: 1.5vh 1.3vw;
+    max-width: 12vw;
+    outline: none;
+    font-size: 2vh; 
+    transition: .5s ease-in-out;
+}
+.textarea {
+    border-style: solid;
+    border-color: lightgrey;
+    border-width: 1.5px;
+    border-radius: 2px;
+    height: 25vh;
+    width: 38vw;
+    padding: 1vh 1vw;
+    background-color:  transparent;
+    outline: none;
+    font-size: 2.5vh;
+    transition: .5s ease-in-out;
+    font-family: 'Helvetica', arial, sans-serif; 
+    color: darkslategray;
+}
+.textarea:focus, .textarea:hover {
+    border-color: darkgrey;
+}
+.inline * {
+    display: inline-block;
+}
+.box .inline * {
+    margin: .5vh 0;
+}
+h2 {
+    font-size: 4vh;
+    font-weight: normal;
+}
+.navbar i {
+    font-size: 4vh;
+}
+form * {
+    margin-right: auto;
+    margin-left: auto;
+}
+.box {
+    background-color: #FAFAFA;
+    width: 42vw;
+    padding: 1vh 4vw;
+}
+.box * {
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+}
+.header-pair input[type="text"]{
+    font-size: 5vh;
+    color: #474747;
+}
+.header-pair form {
+    padding-top:10vh;
+    position: relative;
+}
+.header-pair {
+    width: 100%;
+    display: block;
+    position: relative;
+    margin-top: 0;
+    height: auto;
+}
+.img-box {
+    height: 5vh;
+    width: 5vh;
+    border-style: hidden;
+    border-radius: 50px;
+}
+.avatar {
+    padding: 1.5vh 1.5vw;
+}
