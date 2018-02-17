@@ -27,5 +27,23 @@ module.exports = {
         }else{
             next()
         }
+    },
+    notEmpty: function(redTo){
+        return function(req,res,next){
+            for(key in req.body){
+                req.checkBody(key, key.toTitle() + ' is required').notEmpty();
+            }
+            var errors = req.validationErrors();
+            if(errors){
+                var errArr = [];
+                for(var i = 0; i < errors.length; i++){
+                    errArr.push(errors[i].msg)
+                }
+                req.session.err = errArr;
+                res.redirect(redTo)
+            }else{
+                next()
+            }
+        }
     }
 }
