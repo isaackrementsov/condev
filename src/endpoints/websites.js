@@ -7,15 +7,7 @@ var dbCreate = require("../core/dbCreate");
 var ObjectId = require('mongodb').ObjectID;
 module.exports = {
     index: function(req,res){
-        if(req.session.userId){
-            if(!req.session.dev){
-                res.render("websites", {session:req.session})
-            }else{
-                res.redirect("/devs/" + req.session.user)
-            }
-        }else{
-            res.redirect("/login")
-        }
+        res.render("websites", {session:req.session})
     },
     create: function(req,res){
         var array = [];

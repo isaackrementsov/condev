@@ -5,15 +5,7 @@ module.exports = {
         res.render("home", {session:req.session})
     },
     renderLogin: async function(req,res){
-        if(!req.session.userId){
-            res.render("login", {session:req.session})
-        }else{
-            if(req.session.dev){
-                res.redirect("/devs/" + req.session.user)
-            }else{
-                res.redirect("/clients/" + req.session.user)
-            }
-        }
+        res.render("login", {session:req.session})
     },
     search: async function(req,res){
         req.session.search = req.body.search.split(" ");
@@ -45,15 +37,7 @@ module.exports = {
         }
     },
     renderSignup: async function(req, res){
-        if(!req.session.userId){
-            res.render("signup", {session:req.session})
-        }else{
-            if(req.session.dev){
-                res.redirect("/devs/" + req.session.user)
-            }else{
-                res.redirect("/clients/" + req.session.user)
-            }
-        }
+        res.render("signup", {session:req.session})
     },
     signup: async function(req,res){
         var User = require("../models/users");
@@ -72,7 +56,6 @@ module.exports = {
         }else{
             dbCreate.newUser({username:req.body.username, password:req.body.password, dev:dev, gravatar:req.file.filename}, function(err, saved){
                 if(err){
-                    console.log(err);
                     req.session.err = "Please use a unique username";
                     res.redirect("/signup")
                 }else{

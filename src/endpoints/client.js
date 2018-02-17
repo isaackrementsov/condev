@@ -1,7 +1,6 @@
 var dbFind = require("../core/dbFind");
 module.exports = {    
     index: async function(req,res){
-        if(!req.session.dev){
             //Wait for queries to execute
             var websites = await dbFind.searchSites({'author':req.params.username});
             var user = await dbFind.findUser({'username':req.params.username});
@@ -16,8 +15,5 @@ module.exports = {
                 var secureUser = "User not found"
             }
             res.render("client", {docs:websites, user:secureUser, session:req.session})
-        }else{
-            res.redirect("/devs/" + req.session.user)
-        }
     }
 }
