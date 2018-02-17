@@ -67,30 +67,6 @@ module.exports = {
                     dbUpdate.updateSite({'_id':id}, {$push:{'keywords':{$each:desc}}});
                     dbUpdate.updateSite({'_id':id}, {'description':formValue})
                 }
-            //These parts of the update method now deal with a separate database collection and thus will be moved to their own controller.
-            }else if(attr.split("+")[0] == "jobs"){
-                //Remove job
-                var jobId = ObjectId(attr.split("+")[1]);
-                dbDelete.delJob({'_id':jobId})
-            }else if(attr.split("+")[0] == "applicant"){
-                var jobId = ObjectId(attr.split("+")[1]);
-                //Make sure applicant is developer
-                if(req.session.dev){
-                    //Add new applicant
-                    var job = await dbFind.findJob({'_id':jobId, 'applicants.name':req.session.user});
-                    //Make sure user is not already signed up for job
-                    if(job){
-                        req.session.err = ["You've already applied for this job!"]
-                    }else{
-                        //Add user as job applicant
-                        dbUpdate.updateJob({'_id':jobId}, {$push: {'applicants':{'name':req.session.user}}})
-                    }
-                }else{
-                    req.session.err = ["You're not a developer!"]
-                }
-            }else if(attr == "newJob"){
-                //Add a job
-                dbCreate.newJob({name:req.body.name, payment:req.body.payment, websiteId:id})
             }
             res.redirect("/websites/" + req.params.websiteId)      
     },

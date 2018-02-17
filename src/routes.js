@@ -7,6 +7,7 @@ var ep = require("./endpoints/ep-utils");
 var dev = require("./endpoints/dev");
 var websites = require("./endpoints/websites");
 var search = require("./endpoints/search");
+var jobs = require("./endpoints/jobs");
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/img/');
@@ -34,5 +35,8 @@ module.exports =  function(app){
     router.post("/websites/delete:websiteId", ep.checkClient, websites.delete);
     router.get("/search", search.index);
     router.get("/devs/:username", dev.index);
+    router.post('/jobs:jobId/delete:websiteId', jobs.delete);
+    router.post('/jobs/create:websiteId', jobs.create);
+    router.post('/jobs:jobId/apply:websiteId', jobs.apply);
     router.get("/:any", home.any)
 }

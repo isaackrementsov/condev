@@ -41,11 +41,11 @@
                     <p>Payment: $<%=jobs[i].payment%></p>
                     <p style="color:transparent;"> || </p>
                     <% if(session.user == doc.author){%>
-                        <form method="post" action="/websites/update<%=doc._id%>/jobs+<%=jobs[i]._id%>">
+                        <form method="post" action="/jobs<%=jobs[i]._id%>/delete<%=doc._id%>">
                             <input type="submit" class="submit" value="X">
                         </form>
                     <%}else{%>
-                        <form method="post" action="/websites/update<%=doc._id%>/applicant+<%=jobs[i]._id%>">
+                        <form method="post" action="/jobs<%=jobs[i]._id%>/apply<%=doc._id%>">
                             <input type="submit" class="submit" value="Apply">
                         </form>
                     <%}%>
@@ -53,7 +53,7 @@
             <%}%>
             <%if(session.user == doc.author){%>
                 <button type="button" class="submit" onclick="opendiv('newJobs')">Add job</button>
-                <form method="post" action="/websites/update<%=doc._id%>/newJob" id="newJobs" style="display:none;">
+                <form method="post" action="/jobs/create<%=doc._id%>" id="newJobs" style="display:none;">
                     <div class="inline">
                         <input type="text" name="name" placeholder="Job name" class="titleUpd">
                         <input type="number" name="payment" placeholder="Payment (USD)" class="titleUpd">
