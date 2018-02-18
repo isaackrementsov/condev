@@ -65,5 +65,8 @@ String.prototype.toTitle = function(){
   str[0] = str[0].toUpperCase();
   return str.join("")
 }
+Date.prototype.format = function(){
+  return this.getMonth() + "/" + this.getDate() + "/" + this.getFullYear()
+}
 //IMPORTANT; sends requests to app to routes module in server folder
 routes(app);

@@ -27,6 +27,7 @@ module.exports =  function(app){
     router.post("/signup", upload.single('avatar'), ep.notEmpty('/signup'), home.signup);
     router.post("/", home.search);
     router.post("/logout", home.logout);
+    router.post('/update:attr/:userName/:dev', home.update);
     router.get("/clients/:username", client.index);
     router.get("/client/websites", ep.checkClient, websites.index);
     router.post("/websites/create", ep.notEmpty('/client/websites'), ep.checkAuth, websites.create);

@@ -1,2 +1,47 @@
 <% include partials/otherheader %>
+<% include partials/center %>
+<% if(user.username){%>
+    <div class="inline">
+        <div class="profile">
+            <div class="profile-container block center">
+                    <div class="item" style="margin-top:3vh;">
+                        <img src="/img/<%=user.gravatar%>" class="profile-box">
+                        <div class="layer">
+                            <a href="" class="tiled">
+                                <h1><%=user.username%></h1>
+                                <h2>Developer</h2>
+                            </a>
+                        </div>
+                    </div>
+                <p style="color:transparent;margin-bottom:0vh"> || </p>
+                <p style="margin-top:0vh"><%=jobs.length%> applied jobs.</p>
+                <p>Knows<%=user.languages.map(function(l){return " " + l.name})%></p>
+                <%if(session.user == user.username){%>
+                    <button class="submit" onclick="opendiv('language')">Add language</button>
+                    <form method="post" action="/updatelang/<%=user.username%>/devs" id="language" style="display:none" class="hidden">
+                        <input type="text" placeholder="Language" name="language">
+                        <input type="submit" class="submit" value="Submit">
+                    </form>  
+                <%}%>
+                <p class="descrip"><%=user.bio%></p>
+                <%if(session.user == user.username){%>
+                    <button class="submit" onclick="opendiv('editor')">Edit bio</button>   
+                    <form method="post" action="/updatebio/<%=user.username%>/devs" id="editor" style="display:none" class="hidden">
+                        <textarea class="textarea" name="description" ><%=user.bio%></textarea>
+                        <input type="submit" class="submit" value="Update">
+                    </form>
+                <%}%>               
+            </div>
+            <div class="posts-container block center">
+                <h1 class="heading" style="margin-top:0">Activity</h1>
+                <%for(var i = 0; i < jobs.length; i++){%>
+                    <% var createdAt = jobs[i].applicants[jobs[i].applicants.map(function(a){return a.name}).indexOf(user.username)].createdAt%>
+                    <p class="msg-box">Applied for <%=jobs[i].name%> <span class="timestamp"><%=createdAt.format()%></span></p>
+                <%}%>
+            </div>
+        </div>
+    </div>
+<%}else{%>
+    <p><%=user%></p>
+<%}%>
 <% include partials/footer %>

@@ -23,9 +23,10 @@ module.exports = {
             //Make sure user is not already signed up for job
             if(job){
                 req.session.err = ["You've already applied for this job!"]
+                console.log(job.applicants[0].created_at)
             }else{
                 //Add user as job applicant
-                dbUpdate.updateJob({'_id':jobId}, {$push: {'applicants':{'name':req.session.user}}})
+                dbUpdate.updateJob({'_id':jobId}, {$push: {'applicants':{'name':req.session.user, createdAt: Date.now()}}})
             }
         }else{
             req.session.err = ["You're not a developer!"]
