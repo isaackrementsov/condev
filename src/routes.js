@@ -7,6 +7,7 @@ var ep = require("./endpoints/ep-utils");
 var dev = require("./endpoints/dev");
 var websites = require("./endpoints/websites");
 var search = require("./endpoints/search");
+var jobs = require("./endpoints/jobs");
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/img/');
@@ -21,18 +22,21 @@ module.exports =  function(app){
     app.use("/", router);
     router.get("/", home.index);
     router.get("/login", ep.checkUser, home.renderLogin);
-    router.post("/login", home.login);
+    router.post("/login", ep.notEmpty('/login'), home.login);
     router.get("/signup", ep.checkUser, home.renderSignup);
-    router.post("/signup", upload.single('avatar'), home.signup);
+    router.post("/signup", upload.single('avatar'), ep.notEmpty('/signup'), home.signup);
     router.post("/", home.search);
     router.post("/logout", home.logout);
     router.get("/clients/:username", client.index);
     router.get("/client/websites", ep.checkClient, websites.index);
-    router.post("/websites/create", ep.checkClient, websites.create);
+    router.post("/websites/create", ep.notEmpty('/client/websites'), ep.checkClient, websites.create);
     router.get("/websites/:websiteId", websites.show);
     router.post("/websites/update:websiteId/:attr", ep.checkClient, websites.update);
     router.post("/websites/delete:websiteId", ep.checkClient, websites.delete);
     router.get("/search", search.index);
     router.get("/devs/:username", dev.index);
+    router.post('/jobs:jobId/delete:websiteId', jobs.delete);
+    router.post('/jobs/create:websiteId', jobs.create);
+    router.post('/jobs:jobId/apply:websiteId', jobs.apply);
     router.get("/:any", home.any)
 }

@@ -23,25 +23,16 @@ module.exports = {
         array.push({name:req.session.user, value:6, keyType:"author"});
         var jobData = req.body.jobData.split("]");
         var jobs = [];
-        req.checkBody('description', 'Description is required').notEmpty();
-        req.checkBody('website', 'Website is required').notEmpty();
-        req.checkBody('words', 'Words are required').notEmpty();
-        var errors = req.validationErrors();
-        if(!errors){
-            dbCreate.newWebsite({name:req.body.website, keywords:array, author:req.session.user, description:req.body.description}, function(err,saved){
-                var siteId = ObjectId(saved._id);
-                for(var i = 0; i < (jobData.length - 1); i++){
-                    var name = jobData[i].split(",")[0];
-                    var payment = parseFloat(jobData[i].split(",")[1]);
-                    jobs.push({name:name, payment:payment, websiteId:siteId})
-                }
-                dbCreate.newJob(jobs)
-            });
-            res.redirect("/clients/" + req.session.user)
-        }else{
-            req.session.err = "Please do not leave forms empty!";
-            res.redirect("/client/websites")
-        }
+        dbCreate.newWebsite({name:req.body.website, keywords:array, author:req.session.user, description:req.body.description}, function(err,saved){
+            var siteId = ObjectId(saved._id);
+            for(var i = 0; i < (jobData.length - 1); i++){
+                var name = jobData[i].split(",")[0];
+                var payment = parseFloat(jobData[i].split(",")[1]);
+                jobs.push({name:name, payment:payment, websiteId:siteId})
+            }
+            dbCreate.newJob(jobs)
+        });
+        res.redirect("/clients/" + req.session.user)
     },
     show: async function(req,res){
         var id = ObjectId(req.params.websiteId);
@@ -76,30 +67,6 @@ module.exports = {
                     dbUpdate.updateSite({'_id':id}, {$push:{'keywords':{$each:desc}}});
                     dbUpdate.updateSite({'_id':id}, {'description':formValue})
                 }
-            //These parts of the update method now deal with a separate database collection and thus will be moved to their own controller.
-            }else if(attr.split("+")[0] == "jobs"){
-                //Remove job
-                var jobId = ObjectId(attr.split("+")[1]);
-                dbDelete.delJob({'_id':jobId})
-            }else if(attr.split("+")[0] == "applicant"){
-                var jobId = ObjectId(attr.split("+")[1]);
-                //Make sure applicant is developer
-                if(req.session.dev){
-                    //Add new applicant
-                    var job = await dbFind.findJob({'_id':jobId, 'applicants.name':req.session.user});
-                    //Make sure user is not already signed up for job
-                    if(job){
-                        req.session.err = "You've already applied for this job!"
-                    }else{
-                        //Add user as job applicant
-                        dbUpdate.updateJob({'_id':jobId}, {$push: {'applicants':{'name':req.session.user}}})
-                    }
-                }else{
-                    req.session.err = "You're not a developer!"
-                }
-            }else if(attr == "newJob"){
-                //Add a job
-                dbCreate.newJob({name:req.body.name, payment:req.body.payment, websiteId:id})
             }
             res.redirect("/websites/" + req.params.websiteId)      
     },

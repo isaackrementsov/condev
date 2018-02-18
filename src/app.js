@@ -60,5 +60,10 @@ var limiter = new rateLimiter({
   delayMs: 1
 });
 app.use(limiter);
+String.prototype.toTitle = function(){
+  var str = this.split("");
+  str[0] = str[0].toUpperCase();
+  return str.join("")
+}
 //IMPORTANT; sends requests to app to routes module in server folder
 routes(app);
