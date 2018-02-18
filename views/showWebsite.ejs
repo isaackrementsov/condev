@@ -49,6 +49,21 @@
                             <input type="submit" class="submit" value="Apply">
                         </form>
                     <%}%>
+                    <button onclick="opendiv('applicants<%=i%>')" class="submit">||</button>
+                </div>
+                <div id="applicants<%=i%>" style="display:none">
+                    <p>Applicants:</p>
+                    <%for(var y = 0; y < jobs[i].applicants.length; y++){%>
+                        <div class="inline">
+                            <p><%=jobs[i].applicants[y].name%></p>
+                            <p style="color:transparent"> || </p>
+                            <%if(session.user == doc.author){%>
+                                <form action="/jobs<%=jobs[i]._id%>/delApp<%=doc._id%>/<%=jobs[i].applicants[y].name%>" method="post">
+                                    <input type="submit" class="submit" value="Deny">
+                                </form>
+                            <%}%>
+                        </div>
+                    <%}%>
                 </div>
             <%}%>
             <%if(session.user == doc.author){%>

@@ -31,5 +31,11 @@ module.exports = {
             req.session.err = ["You're not a developer!"]
         }
         res.redirect("/websites/" + req.params.websiteId) 
+    },
+    delApp: function(req,res){
+        var jobId = ObjectId(req.params.jobId);
+        var userName = req.params.userName;
+        dbUpdate.updateJob({'_id':jobId}, {$pull:{'applicants':{'name':userName}}});
+        res.redirect("/websites/" + req.params.websiteId)
     }
 }

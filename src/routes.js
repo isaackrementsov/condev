@@ -29,14 +29,15 @@ module.exports =  function(app){
     router.post("/logout", home.logout);
     router.get("/clients/:username", client.index);
     router.get("/client/websites", ep.checkClient, websites.index);
-    router.post("/websites/create", ep.notEmpty('/client/websites'), ep.checkClient, websites.create);
+    router.post("/websites/create", ep.notEmpty('/client/websites'), ep.checkAuth, websites.create);
     router.get("/websites/:websiteId", websites.show);
-    router.post("/websites/update:websiteId/:attr", ep.checkClient, websites.update);
-    router.post("/websites/delete:websiteId", ep.checkClient, websites.delete);
+    router.post("/websites/update:websiteId/:attr", ep.checkAuth, websites.update);
+    router.post("/websites/delete:websiteId", ep.checkAuth, websites.delete);
     router.get("/search", search.index);
     router.get("/devs/:username", dev.index);
-    router.post('/jobs:jobId/delete:websiteId', jobs.delete);
-    router.post('/jobs/create:websiteId', jobs.create);
-    router.post('/jobs:jobId/apply:websiteId', jobs.apply);
+    router.post('/jobs:jobId/delApp:websiteId/:userName', ep.checkAuth, jobs.delApp);
+    router.post('/jobs:jobId/delete:websiteId', ep.checkAuth, jobs.delete);
+    router.post('/jobs/create:websiteId', ep.checkAuth, jobs.create);
+    router.post('/jobs:jobId/apply:websiteId', ep.checkAuth, jobs.apply);
     router.get("/:any", home.any)
 }
