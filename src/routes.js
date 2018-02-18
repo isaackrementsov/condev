@@ -38,6 +38,6 @@ module.exports =  function(app){
     router.post('/jobs:jobId/delApp:websiteId/:userName', ep.checkAuth, jobs.delApp);
     router.post('/jobs:jobId/delete:websiteId', ep.checkAuth, jobs.delete);
     router.post('/jobs/create:websiteId', ep.checkAuth, jobs.create);
-    router.post('/jobs:jobId/apply:websiteId', ep.checkAuth, jobs.apply);
+    router.post('/jobs:jobId/apply:websiteId', ep.checkDev, jobs.apply);
     router.get("/:any", home.any)
 }
