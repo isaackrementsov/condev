@@ -1,5 +1,7 @@
 var dbFind = require("../core/dbFind");
-var dbCreate = require("../core/dbCreate")
+var dbCreate = require("../core/dbCreate");
+var dbUpdate = require("../core/dbUpdate");
+var ObjectId = require('mongodb').ObjectID;
 module.exports = {
     index: function(req,res){
         res.render("home", {session:req.session})
@@ -51,6 +53,15 @@ module.exports = {
     logout: function(req,res){
         req.session.destroy();
         res.redirect("/login")
+    },
+    update: function(req,res){
+        var userName = req.params.userName;
+        if(req.params.attr=="lang"){
+            dbUpdate.updateUser({'username':userName}, {$push:{'languages':{'name':req.body.language}}});
+        }else if(req.params.attr=="bio"){
+            dbUpdate.updateUser({'username':userName}, {'bio':req.body.description})
+        }
+        res.redirect("/" + req.params.dev + "/" + req.params.userName)
     },
     any: function(req,res){
         res.render("404", {session:req.session})

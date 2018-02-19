@@ -8,7 +8,9 @@ var userSchema = new Schema({
     password: {type: String},
     dev: {type: Boolean},
     creditCardNumber: {type: Number},
-    gravatar: {type: String}    
+    gravatar: {type: String},
+    bio: {type:String},
+    languages: [{name: String}]    
 });
 var User = mongoose.model("User", userSchema);
 module.exports = User;

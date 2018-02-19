@@ -18,21 +18,15 @@ html, body {
     width: 100%;
     top: 12vh;
 }
-.item:hover .layer {
-    color: white;
-    opacity: 1;
-}
 .item {
-    width: auto;
     background-repeat: no-repeat;
     position: relative;
-    float: top;
-    float: left;
-    margin-right: 1vw;
+    margin-right: 8.5vw !important;
+    margin-left: 8.5vw !important;
 }
 .item img {
-    width: auto;
-    height: 40vh;
+    width: 30vw;
+    height: auto;
 }
 .layer {
     top: 0;
@@ -42,10 +36,11 @@ html, body {
     width: 100%;
     height: 100%;
     background-color: rgba(100, 100, 100, 0.5);   
-    color: transparent;
     transition: .5s ease;
     position: absolute;
-    opacity: 0;
+    opacity: 1;
+    margin-top: 0vh !important;
+    color: white;
 }
 .navbar h1 {
     font-weight: bold;
@@ -231,4 +226,79 @@ form * {
 }
 .avatar {
     padding: 1.5vh 1.5vw;
+}
+.profile-box {
+    width: 30vw;
+    border-style: hidden;
+    border-radius: 5px;
+}
+.block :not(.hidden) {
+    display: block !important;
+}
+.profile-container {
+    width: 47vw;
+    background-color: #FAFAFA;
+    margin-top: 0;
+    box-shadow: 0 0.1px 25px 0 rgba(0, 0, 0, 0.01), 0 1px 100px 0 rgba(0, 0, 0, 0.04);
+    position: absolute;
+    top: 0;
+    left: 2vw;
+    padding-bottom: 2vh;
+}
+.posts-container {
+    width: 47vw;
+    background-color: #FAFAFA;
+    margin-top: 0;
+    box-shadow: 0 0.1px 25px 0 rgba(0, 0, 0, 0.01), 0 1px 100px 0 rgba(0, 0, 0, 0.04);
+    position: absolute;
+    top: 0;
+    right: 2vw;
+    padding-bottom: 2vh;
+}
+.sm-container {
+    width: 100%
+}
+.heading {
+    width: 100%;
+    background-color:#F7F7F7;
+    margin-top: 0;
+    padding: 2vh 0vw;
+}
+.msg-box {
+    width: 85%;
+    padding: 1.5vh 0.7vw;
+    margin: 1vh 0vw;
+    border-left-style: solid;
+    border-left-color: grey;
+    text-align: left !important;
+    background-color:#F2F2F2;
+}
+.profile {
+    width: 100vw;
+    height: auto;
+    display: block !important;
+    position: absolute;
+}
+.inside {
+    display: inline !important;
+}
+.timestamp {
+    text-align: right !important;
+    width: 100%;
+    color: grey;
+    font-size: 2.5vh;
+}
+.posts-container *, .profile-container *{
+    margin-top: 1vh;
+}
+.shade {
+    width: 85%;
+    padding: 1.5vh 0.7vw;
+    margin: 1vh 0vw;
+    border-left-style: solid;
+    border-left-color: grey;
+    background-color:#F2F2F2;
+}
+.descrip {
+    width: 40vw;
 }
