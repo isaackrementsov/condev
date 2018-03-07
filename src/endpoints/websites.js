@@ -33,7 +33,7 @@ module.exports = {
             for(var i = 0; i < (jobData.length - 1); i++){
                 var name = jobData[i].split(",")[0];
                 var payment = parseFloat(jobData[i].split(",")[1]);
-                jobs.push({name:name, payment:payment, websiteId:siteId})
+                jobs.push({name:name, payment:payment, websiteId:siteId, author:req.session.user})
             }
             dbCreate.newJob(jobs)
         });
@@ -50,14 +50,15 @@ module.exports = {
             var formValue = req.body.value;
             var attr = req.params.attr;
             var val;
+            var user = req.session.user;
             if(formValue){
                 if(attr == "name"){
                     //Set keyword value corresponding to update attribute
                     val = 5;
                     //Remove old title with core module update API
-                    dbUpdate.updateSite({'_id':id}, {$pull:{'keywords':{'keyType':attr}}});
+                    dbUpdate.updateSite({'_id':id, 'author':user}, {$pull:{'keywords':{'keyType':attr}}});
                     //Add new website title
-                    dbUpdate.updateSite({'_id':id}, {$push:{'keywords':{'value':val, 'name':formValue, 'keyType':attr}}});
+                    dbUpdate.updateSite({'_id':id, 'author':user}, {$push:{'keywords':{'value':val, 'name':formValue, 'keyType':attr}}});
                     dbUpdate.updateSite({_id:id}, {'name':formValue})
                 }else if(attr = "description"){
                     val = 1;
@@ -67,18 +68,19 @@ module.exports = {
                         desc.push({name: description[i], keyType: attr, value: val})
                     }
                     //Remove all old description keywords
-                    dbUpdate.updateSite({'_id':id}, {$pull:{'keywords':{'value':val}}});
+                    dbUpdate.updateSite({'_id':id, 'author':user}, {$pull:{'keywords':{'value':val}}});
                     //Add new description keywords
-                    dbUpdate.updateSite({'_id':id}, {$push:{'keywords':{$each:desc}}});
-                    dbUpdate.updateSite({'_id':id}, {'description':formValue})
+                    dbUpdate.updateSite({'_id':id, 'author':user}, {$push:{'keywords':{$each:desc}}});
+                    dbUpdate.updateSite({'_id':id, 'author':user}, {'description':formValue})
                 }
             }
             res.redirect("/websites/" + req.params.websiteId)      
     },
     delete: function(req,res){
         var id = ObjectId(req.params.websiteId);
-        dbDelete.delWebsite({'_id':id});
+        var user = req.session.user;
+        dbDelete.delWebsite({'_id':id, 'author':user});
         dbDelete.delJob({'websiteId':id});
-        res.redirect("/clients/" + req.session.user)
+        res.redirect("/clients/" + user)
     }
 }

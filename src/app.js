@@ -68,5 +68,12 @@ String.prototype.toTitle = function(){
 Date.prototype.format = function(){
   return this.getMonth() + "/" + this.getDate() + "/" + this.getFullYear()
 }
+Array.prototype.search = function(property, term){
+  var objArr = [];
+  for(var i = 0; i < this.length; i++){
+    objArr.push(this[i][property])
+  }
+  return objArr.indexOf(term)
+}
 //IMPORTANT; sends requests to app to routes module in server folder
 routes(app);

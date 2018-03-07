@@ -9,7 +9,7 @@ var jobSchema = new Schema({
     payment: {type:Number},
     applicants: [{name:String, chosen:Boolean, createdAt: Date, chosenAt: Date}],
     closed: {type:Boolean},
-    done: {type:Boolean}
+    author: {type:String}
 });
 var Job = mongoose.model("Job", jobSchema);
 module.exports = Job;

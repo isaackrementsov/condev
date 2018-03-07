@@ -47,14 +47,5 @@ module.exports = {
                 next()
             }
         }
-    },
-    checkAuth: async function(req,res,next){
-        var websiteId = ObjectId(req.params.websiteId);
-        var website = await dbFind.findSite({'_id':websiteId});
-        if(website.author == req.session.user){
-            next()
-        }else{
-            res.redirect("/websites/" + req.params.websiteId)
-        }
     }
 }

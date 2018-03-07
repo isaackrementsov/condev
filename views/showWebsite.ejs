@@ -36,7 +36,7 @@
             <%}%>
             <%for(var i = 0; i < jobs.length; i++){%>
                 <%if(jobs[i].closed){%>
-                    <p>Job closed</p>
+                    <p><%=jobs[i].applicants[jobs[i].applicants.search('chosen', true)].name%> selected for <%=jobs[i].name%></p>
                 <%}else{%>
                     <div class="inline jobDisplay" style="margin:0;">
                         <p><%=jobs[i].name%> </p>
@@ -44,7 +44,7 @@
                         <p>Payment: $<%=jobs[i].payment%></p>
                         <p style="color:transparent;"> || </p>
                         <% if(session.user == doc.author){%>
-                            <form method="post" action="/jobs<%=jobs[i]._id%>/delete<%=doc._id%>">
+                            <form method="post" action="/jobs<%=jobs[i]._id%>/delete<%=doc._id%>/<%=jobs[i].name%>">
                                 <input type="submit" class="submit" value="X">
                             </form>
                         <%}else{%>

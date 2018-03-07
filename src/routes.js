@@ -27,19 +27,19 @@ module.exports =  function(app){
     router.post("/signup", upload.single('avatar'), ep.notEmpty('/signup'), home.signup);
     router.post("/", home.search);
     router.post("/logout", home.logout);
-    router.post('/update:attr', home.update);
+    router.post('/update:attr', ep.checkUser, home.update);
     router.get("/clients/:username", client.index);
     router.get("/client/websites", ep.checkClient, websites.index);
     router.post("/websites/create", ep.notEmpty('/client/websites'), ep.checkClient, websites.create);
     router.get("/websites/:websiteId", websites.show);
-    router.post("/websites/update:websiteId/:attr", ep.checkAuth, websites.update);
-    router.post("/websites/delete:websiteId", ep.checkAuth, websites.delete);
+    router.post("/websites/update:websiteId/:attr", websites.update);
+    router.post("/websites/delete:websiteId", websites.delete);
     router.get("/search", search.index);
     router.get("/devs/:username", dev.index);
-    router.post('/jobs:jobId/delApp:websiteId/:userName', ep.checkAuth, jobs.delApp);
-    router.post('/jobs:jobId/addApp:websiteId/:userName', ep.checkAuth, jobs.addApp);
-    router.post('/jobs:jobId/delete:websiteId', ep.checkAuth, jobs.delete);
-    router.post('/jobs/create:websiteId', ep.checkAuth, jobs.create);
+    router.post('/jobs:jobId/delApp:websiteId/:userName', jobs.delApp);
+    router.post('/jobs:jobId/addApp:websiteId/:userName', jobs.addApp);
+    router.post('/jobs:jobId/delete:websiteId/:name', jobs.delete);
+    router.post('/jobs/create:websiteId', jobs.create);
     router.post('/jobs:jobId/apply:websiteId', ep.checkDev, jobs.apply);
     router.get("/:any", home.any)
 }
