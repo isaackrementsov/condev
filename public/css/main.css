@@ -6,6 +6,7 @@ html, body {
     font-size: 3vh;
     text-decoration: none;
     background-color: whitesmoke;
+    overflow-x: hidden;
 }
 .content {
     padding: 2vh 2vw;
@@ -294,11 +295,23 @@ form * {
 .shade {
     width: 85%;
     padding: 1.5vh 0.7vw;
-    margin: 1vh 0vw;
+    margin: 2vh 0vw;
     border-left-style: solid;
     border-left-color: grey;
     background-color:#F2F2F2;
 }
 .descrip {
     width: 40vw;
+}
+.posts {
+    width: 95%;
+    height: 65vh;
+    overflow: auto;
+}
+.result {
+    width: 80vh;
+    background-color: #FAFAFA;
+}
+.result p {
+    color: grey;
 }
