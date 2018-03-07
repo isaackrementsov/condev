@@ -8,6 +8,7 @@ var jobSchema = new Schema({
     websiteId: {type:String},
     payment: {type:Number},
     applicants: [{name:String, chosen:Boolean, createdAt: Date, chosenAt: Date}],
+    closed: {type:Boolean},
     done: {type:Boolean}
 });
 var Job = mongoose.model("Job", jobSchema);

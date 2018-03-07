@@ -4,10 +4,10 @@
 <%if(docs.length){%>
     <p>Your search results...</p>
     <% for(var i= 0; i < docs.length; i++){%>
-            <a href="websites/<%=docs[i].document._id%>" class="submit" style="font-size:4vh;">
-                <p><%=docs[i].document.name%></p>
-                <p><%=docs[i].document.author%></p>
-            </a>
+        <a href="/websites/<%=docs[i].document._id%>" class="shade result">
+            <h2><%=docs[i].document.name%></h2>
+            <p><%=docs[i].document.description%></p>
+        </a>
     <%}%>
 <%}else{%>
     <p>Sorry, no results found.</p>

@@ -11,6 +11,8 @@ module.exports = {
     },
     create: function(req,res){
         var array = [];
+        var jobData = req.body.jobData.split("]");
+        var jobs = [];
         for(var i = 0; i < req.body.words.split(",").length; i++ ){
                 array.push({name:req.body.words.split(",")[i], value:2, keyType:"keyword"});
         }
@@ -19,10 +21,13 @@ module.exports = {
                 array.push({name:req.body.description.split(" ")[i], value:1, keyType:"description"});
             }
         }
+        for(var i = 0; i < (jobData.length - 1); i++){
+            var name = jobData[i].split(",")[0];
+            var payment = parseFloat(jobData[i].split(",")[1]);
+            array.push({name:name, value:7, keyType: "job"})
+        }
         array.push({name:req.body.website, value:5, keyType:"name"});
         array.push({name:req.session.user, value:6, keyType:"author"});
-        var jobData = req.body.jobData.split("]");
-        var jobs = [];
         dbCreate.newWebsite({name:req.body.website, keywords:array, author:req.session.user, description:req.body.description}, function(err,saved){
             var siteId = ObjectId(saved._id);
             for(var i = 0; i < (jobData.length - 1); i++){

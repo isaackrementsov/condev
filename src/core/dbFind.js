@@ -1,43 +1,43 @@
 var Website = require("../models/websites");
 var User = require("../models/users");
 var Job = require("../models/jobs");
-var findUser = function (data, callback){
-    return User.findOne(data, function(err,docs){
+var findUser = function (data, select, callback){
+    return User.findOne(data, select, function(err,docs){
         if(callback){
             callback(err,docs)
         }
     })
 }
-var findSite = function(data, callback){
-    return Website.findOne(data, function(err,docs){
+var findSite = function(data, select, callback){
+    return Website.findOne(data, select, function(err,docs){
         if(callback){
             callback(err,docs)
         }
     })
 }
-var findJob = function(data, callback){
-    return Job.findOne(data, function(err,docs){
+var findJob = function(data, select, callback){
+    return Job.findOne(data, select, function(err,docs){
         if(callback){
             callback(err,docs)
         }
     })
 }
-var searchSites = function(data, callback){
-    return Website.find(data, function(err,docs){
+var searchSites = function(data, select, callback){
+    return Website.find(data, select, function(err,docs){
         if(callback){
             callback(err,docs)
         }
     });
 }
-var searchUsers = function(data, callback){
-    return User.find(data, function(err,docs){
+var searchUsers = function(data, select, callback){
+    return User.find(data, select, function(err,docs){
         if(callback){
             callback(err,docs)
         }
     })
 }
-searchJobs = function(data, callback){
-    return Job.find(data, function(err,docs){
+searchJobs = function(data, select, callback){
+    return Job.find(data, select, function(err,docs){
         if(callback){
             callback(err,docs)
         }

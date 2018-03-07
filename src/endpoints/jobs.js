@@ -7,11 +7,13 @@ module.exports = {
     create: function(req,res){
         var websiteId = ObjectId(req.params.websiteId);
         dbCreate.newJob({name:req.body.name, payment:req.body.payment, websiteId:websiteId});
+        dbUpdate.updateSite({'_id':websiteId}, {$push:{'keywords':{'name':req.body.name, 'value':7, 'keyType':'job'}}});
         res.redirect("/websites/" + req.params.websiteId) 
     },
     delete: function(req,res){
         var jobId = ObjectId(req.params.jobId);
         dbDelete.delJob({'_id':jobId});
+        dbUpdate.updateSite({'_id':websiteId}, {$push:{'keywords':{'name':req.body.name, 'keyType':'job'}}});
         res.redirect("/websites/" + req.params.websiteId) 
     },
     apply: async function(req,res){
@@ -37,6 +39,12 @@ module.exports = {
         var jobId = ObjectId(req.params.jobId);
         var userName = req.params.userName;
         dbUpdate.updateJob({'_id':jobId}, {$pull:{'applicants':{'name':userName}}});
+        res.redirect("/websites/" + req.params.websiteId)
+    },
+    addApp: function(req,res){
+        var jobId = ObjectId(req.params.jobId);
+        var userName = req.params.userName;
+        dbUpdate.updateJob({'_id':jobId, 'applicants.name':userName}, {'applicants.$.chosen':true, 'closed':true});
         res.redirect("/websites/" + req.params.websiteId)
     }
 }

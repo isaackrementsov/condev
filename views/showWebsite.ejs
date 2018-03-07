@@ -24,7 +24,7 @@
                     </form>
                 <%}%>
             </div>
-            <h2><%=doc.author%></h2>
+            <h2><a href="/clients/<%=doc.author%>"><%=doc.author%></a></h2>
             <p id="descrip" onclick="opendiv('form3')">
                 <%=doc.description%>
             </p>
@@ -35,22 +35,26 @@
                 </form> 
             <%}%>
             <%for(var i = 0; i < jobs.length; i++){%>
-                <div class="inline" style="margin:0;">
-                    <p><%=jobs[i].name%> </p>
-                    <p style="color:transparent;"> || </p>
-                    <p>Payment: $<%=jobs[i].payment%></p>
-                    <p style="color:transparent;"> || </p>
-                    <% if(session.user == doc.author){%>
-                        <form method="post" action="/jobs<%=jobs[i]._id%>/delete<%=doc._id%>">
-                            <input type="submit" class="submit" value="X">
-                        </form>
-                    <%}else{%>
-                        <form method="post" action="/jobs<%=jobs[i]._id%>/apply<%=doc._id%>">
-                            <input type="submit" class="submit" value="Apply">
-                        </form>
-                    <%}%>
-                    <button onclick="opendiv('applicants<%=i%>')" class="submit">||</button>
-                </div>
+                <%if(jobs[i].closed){%>
+                    <p>Job closed</p>
+                <%}else{%>
+                    <div class="inline jobDisplay" style="margin:0;">
+                        <p><%=jobs[i].name%> </p>
+                        <p style="color:transparent;"> || </p>
+                        <p>Payment: $<%=jobs[i].payment%></p>
+                        <p style="color:transparent;"> || </p>
+                        <% if(session.user == doc.author){%>
+                            <form method="post" action="/jobs<%=jobs[i]._id%>/delete<%=doc._id%>">
+                                <input type="submit" class="submit" value="X">
+                            </form>
+                        <%}else{%>
+                            <form method="post" action="/jobs<%=jobs[i]._id%>/apply<%=doc._id%>">
+                                <input type="submit" class="submit" value="Apply">
+                            </form>
+                        <%}%>
+                        <button onclick="opendiv('applicants<%=i%>')" class="submit minor">||</button>
+                    </div>
+                <%}%>
                 <div id="applicants<%=i%>" style="display:none">
                     <p>Applicants:</p>
                     <%for(var y = 0; y < jobs[i].applicants.length; y++){%>
@@ -58,6 +62,9 @@
                             <a href="/devs/<%=jobs[i].applicants[y].name%>" class="submit"><%=jobs[i].applicants[y].name%></a>
                             <p style="color:transparent"> || </p>
                             <%if(session.user == doc.author){%>
+                                <form action="/jobs<%=jobs[i]._id%>/addApp<%=doc._id%>/<%=jobs[i].applicants[y].name%>" method="post">
+                                    <input type="submit" class="submit" value="Accept">
+                                </form>
                                 <form action="/jobs<%=jobs[i]._id%>/delApp<%=doc._id%>/<%=jobs[i].applicants[y].name%>" method="post">
                                     <input type="submit" class="submit" value="Deny">
                                 </form>

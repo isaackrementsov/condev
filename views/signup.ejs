@@ -4,8 +4,8 @@
     <h1>Signup</h1>
     <form method="post" action="/signup" enctype="multipart/form-data">
         <div class="inline">
-            <input type="text" name="username" placeholder="Username..." autocomplete="off" class="titleUpd">
-            <input type="password" name="password" placeholder="Password..." autocomplete="off" class="titleUpd">
+            <input type="text" name="username" placeholder="Username..." autocomplete="off" class="titleUpd" required>
+            <input type="password" name="password" placeholder="Password..." autocomplete="off" class="titleUpd" required>
         </div>
         <div class="inline">
             <select name="dev" class="submit">
@@ -13,7 +13,7 @@
                 <option value="true">Programmer</option>
             </select>
             <label for="file">
-                <a class="input submit" style="font-size:2.3vh;width:8vh;">Avatar</a>
+                <a class="input submit" style="font-size:2.3vh;width:8vh;" required>Avatar</a>
                 <input type="file" name="avatar" style="display:none;" id="file">            
             </label>
         </div>

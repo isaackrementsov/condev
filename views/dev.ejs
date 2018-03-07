@@ -1,6 +1,6 @@
 <% include partials/otherheader %>
 <% include partials/center %>
-<% if(user.username){%>
+<% if(user){%>
     <div class="inline">
         <div class="profile">
             <div class="profile-container block center">
@@ -18,7 +18,7 @@
                 <p>Knows<%=user.languages.map(function(l){return " " + l.name})%></p>
                 <%if(session.user == user.username){%>
                     <button class="submit" onclick="opendiv('language')">Add language</button>
-                    <form method="post" action="/updatelang/<%=user.username%>/devs" id="language" style="display:none" class="hidden">
+                    <form method="post" action="/updatelang" id="language" style="display:none" class="hidden">
                         <input type="text" placeholder="Language" name="language">
                         <input type="submit" class="submit" value="Submit">
                     </form>  
@@ -26,7 +26,7 @@
                 <p class="descrip"><%=user.bio%></p>
                 <%if(session.user == user.username){%>
                     <button class="submit" onclick="opendiv('editor')">Edit bio</button>   
-                    <form method="post" action="/updatebio/<%=user.username%>/devs" id="editor" style="display:none" class="hidden">
+                    <form method="post" action="/updatebio" id="editor" style="display:none" class="hidden">
                         <textarea class="textarea" name="description" ><%=user.bio%></textarea>
                         <input type="submit" class="submit" value="Update">
                     </form>
@@ -34,14 +34,16 @@
             </div>
             <div class="posts-container block center">
                 <h1 class="heading" style="margin-top:0">Activity</h1>
-                <%for(var i = 0; i < jobs.length; i++){%>
-                    <% var createdAt = jobs[i].applicants[jobs[i].applicants.map(function(a){return a.name}).indexOf(user.username)].createdAt%>
-                    <p class="msg-box">Applied for <%=jobs[i].name%> <span class="timestamp"><%=createdAt.format()%></span></p>
-                <%}%>
+                <div class="posts">
+                    <%for(var i = 0; i < jobs.length; i++){%>
+                        <% var createdAt = jobs[i].applicants[jobs[i].applicants.map(function(a){return a.name}).indexOf(user.username)].createdAt%>
+                        <p class="msg-box">Applied for <%=jobs[i].name%> <span class="timestamp"><%=createdAt.format()%></span></p>
+                    <%}%>
+                </div>
             </div>
         </div>
     </div>
 <%}else{%>
-    <p><%=user%></p>
+    <p>User not found</p>
 <%}%>
 <% include partials/footer %>
