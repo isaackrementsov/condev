@@ -82,6 +82,9 @@ Array.prototype.objects = function(property){
   }
   return objArr
 }
+String.prototype.fix = function(){
+  return this.trim().toLowerCase()
+}
 Array.prototype.mSearch = function(property, term){
   var objArr = [];
   for(var i = 0; i < this.length; i++){

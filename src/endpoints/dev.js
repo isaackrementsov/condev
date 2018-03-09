@@ -21,8 +21,8 @@ module.exports = {
             //Search array to find where name is the language searching for
             expJobs = expJobs.concat(jobs.filter(function(job){
                 //Make sure job is not already part of array
-                if(expJobs.indexOf(job) == -1){
-                    return job.name.indexOf(langs[i].name) != -1
+                if(expJobs.indexOf(job) == -1 && !job.closed){
+                    return job.name.toLowerCase().indexOf(langs[i].name.fix()) != -1
                 }
             }));
         }
@@ -30,6 +30,8 @@ module.exports = {
         for(let i = 0; i < expJobs.length; i++){
             expWeb = expWeb.concat(websites.filter(function(website){
                 if(expWeb.indexOf(website) == -1){
+                    website.matched = 0;
+                    website.relevance = 0;
                     if(website._id == expJobs[i].websiteId){
                         website.matched = 1;
                         return website
@@ -37,7 +39,7 @@ module.exports = {
                 }else{
                     website.matched++;
                 }
-                website.relevance = Math.pow(website.matched, 1/7) 
+                website.relevance = Math.pow(website.matched, 1/3) 
             }))
         }
         res.render("dHome", {

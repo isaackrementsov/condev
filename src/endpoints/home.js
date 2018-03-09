@@ -16,7 +16,7 @@ module.exports = {
             if(user.dev){
                 res.redirect('/devHome')
             }else{
-                res.redirect('/clientHome')
+                res.redirect('/clients/' + req.session.user)
             }
         }else{
             req.session.err = ["Incorrect credentials"];

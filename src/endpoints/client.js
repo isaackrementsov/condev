@@ -8,8 +8,5 @@ module.exports = {
         //Sort websites by date
         var websites = websites.reverse();
         res.render("client", {websites:websites, user:user, session:req.session})
-    },
-    home: async function(req,res){
-        
     }
 }

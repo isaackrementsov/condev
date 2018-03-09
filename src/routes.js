@@ -28,7 +28,6 @@ module.exports =  function(app){
     router.post("/logout", home.logout);
     router.post('/update:attr', ep.checkIn, home.update);
     router.get("/clients/:username", client.index);
-    router.get("/clientHome", ep.checkClient, client.home);
     router.get("/client/websites", ep.checkClient, websites.index);
     router.post("/websites/create", ep.notEmpty('/client/websites'), ep.checkClient, websites.create);
     router.get("/websites/:websiteId", websites.show);
