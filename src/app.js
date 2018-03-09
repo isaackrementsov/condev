@@ -75,5 +75,35 @@ Array.prototype.search = function(property, term){
   }
   return objArr.indexOf(term)
 }
+Array.prototype.objects = function(property){
+  var objArr = [];
+  for(var i = 0; i < this.length; i++){
+    objArr.push(this[i][property])
+  }
+  return objArr
+}
+Array.prototype.mSearch = function(property, term){
+  var objArr = [];
+  for(var i = 0; i < this.length; i++){
+    objArr.push(this[i][property])
+  }
+  return objArr.mIndex(term)
+}
+Array.prototype.mIndex = function(term){
+  var results = [];
+  for(var i = 0; i < this.length; i++){
+    if(this[i] == term){
+      results.push(i)
+    }
+  }
+  return results
+}
+Array.prototype.mSelect = function(arr){
+  array = [];
+  for(var i = 0; i < arr.length; i++){
+    array.push(this[arr[i]])
+  }
+  return array
+}
 //IMPORTANT; sends requests to app to routes module in server folder
 routes(app);
