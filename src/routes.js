@@ -33,12 +33,12 @@ module.exports =  function(app){
     router.get("/websites/:websiteId", websites.show);
     router.post("/websites/update:websiteId/:attr", websites.update);
     router.post("/websites/delete:websiteId", websites.delete);
+    router.post('/websites/close:websiteId', websites.close);
     router.get("/devs/:username", dev.index);
     router.get("/devHome", ep.checkDev, dev.home);
     router.post('/jobs:jobId/delApp:websiteId/:userName', jobs.delApp);
     router.post('/jobs:jobId/addApp:websiteId/:userName', jobs.addApp);
-    router.post('/jobs:jobId/delete:websiteId/:name', jobs.delete);
-    router.post('/jobs/create:websiteId', jobs.create);
+    router.post('/jobs/create:websiteId', ep.notEmpty('/websites/:websiteId'), jobs.create);
     router.post('/jobs:jobId/apply:websiteId', ep.checkDev, jobs.apply);
     router.get("/:any", home.any)
 }

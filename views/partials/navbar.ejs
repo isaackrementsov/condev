@@ -1,21 +1,28 @@
 <ul class="navbar">
     <li><a href="/"><h1 class="navlink">ConDev</h1></a></li>
+    <%if(session.userId){%>
+        <li><button class="navlink"><i class="material-icons" onclick="opendiv('vertical')">menu</i></button></li>
+    <%}%>
     <li><a href="/" class="navlink"><i class="material-icons">search</i></a></li>
     <% if(session.userId){%>
-        <li><form action="/logout" method="post" class="link">
-            <label for="btn">
-                <a class="navlink"><i class="material-icons">exit_to_app</i></a>
-                <input type="submit" value="Logout" class="navlink" id="btn" style="display:none;">
-            </label>
-        </form></li>
-        <% if(session.dev){%>
-            <li><a href="/devs/<%=session.user%>" class="navlink avatar"><img src="/img/<%=session.gravName%>" class="img-box"></a></li>
-        <%}else{%>
-            <li><a href="/clients/<%=session.user%>" class="navlink avatar"><img src="/img/<%=session.gravName%>" class="img-box"></a></li>
-            <li><a href="/client/websites" class="navlink"><i class="material-icons">note_add</i></a></li>
-        <%}%>
+
     <%}else{%>
         <li><a href="/signup"class="navlink"><i class="material-icons">person_add</i></a></li>
         <li><a href="/login" class="navlink"><i class="material-icons">account_circle</i></a></li> 
     <%}%>
 </ul>
+<%if(session.userId){%>
+    <ul class="vertical" id="vertical" style="display:none">
+        <% if(session.dev){%>
+            <li><a href="/devHome" class="navlink"><i class="material-icons">view_list</i><span class="transparent">||</span> Home</a></li>
+            <li><a href="/devs/<%=session.user%>" class="navlink avatar"><img src="/img/<%=session.gravName%>" class="img-box"><span class="transparent">||</span> Profile</a></li>
+        <%}else{%>
+            <li><a href="/clients/<%=session.user%>" class="navlink avatar"><img src="/img/<%=session.gravName%>" class="img-box"><span class="transparent">||</span> Profile</a></li>
+            <li><a href="/client/websites" class="navlink"><i class="material-icons">note_add</i><span class="transparent">||</span> New site</a></li>
+        <%}%>
+        <li><form action="/logout" method="post" class="link">
+            <button class="navlink"><i class="material-icons">exit_to_app</i><span class="transparent">||</span> Logout</button>
+        </form></li>
+        <li><a href="https://devchat.com/home" class="navlink"><i class="material-icons">check_circle</i><span class="transparent">||</span> Continue</a></li>
+    </ul>
+<%}%>

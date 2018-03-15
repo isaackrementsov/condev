@@ -82,5 +82,12 @@ module.exports = {
         dbDelete.delWebsite({'_id':id, 'author':user});
         dbDelete.delJob({'websiteId':id});
         res.redirect("/clients/" + user)
+    },
+    close: function(req,res){
+        var websiteId = ObjectId(req.params.websiteId);
+        var user = req.session.user;
+        dbUpdate.updateSite({'_id':websiteId, 'author':user}, {'closed':true});
+        dbUpdate.updateJob({'websiteId':websiteId}, {'closed':true}, {multi:true});
+        res.redirect('/websites/' + req.params.websiteId)
     }
 }

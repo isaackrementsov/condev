@@ -10,7 +10,8 @@ var userSchema = new Schema({
     creditCardNumber: {type: Number},
     gravatar: {type: String},
     bio: {type:String},
-    languages: [{name: String}]    
+    languages: [{name: String}],
+    xp: {type:Number}    
 });
 var User = mongoose.model("User", userSchema);
 module.exports = User;

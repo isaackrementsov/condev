@@ -26,12 +26,15 @@ module.exports = {
         //Make sure applicant is developer
         if(req.session.dev){
             //Add new applicant
-            var job = await dbFind.findJob({'_id':jobId, 'applicants.name':req.session.user});
+            var job = await dbFind.findJob({'_id':jobId});
+            var app = job.applicants.filter(function(app){
+                return app.name == req.session.user
+            })
             //Make sure user is not already signed up for job
-            if(job){
+            if(app){
                 req.session.err = ["You've already applied for this job!"]
                 console.log(job.applicants[0].created_at)
-            }else{
+            }else if(!job.closed){
                 //Add user as job applicant
                 dbUpdate.updateJob({'_id':jobId}, {$push: {'applicants':{'name':req.session.user, createdAt: Date.now()}}})
             }

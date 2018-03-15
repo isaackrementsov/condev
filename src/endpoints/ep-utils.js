@@ -42,7 +42,12 @@ module.exports = {
                     errArr.push(errors[i].msg)
                 }
                 req.session.err = errArr;
-                res.redirect(redTo)
+                if(redTo.indexOf(":")){
+                    var path = redTo.split(":")[1]
+                    res.redirect(redTo.split(":")[0] + req.params[path])
+                }else{
+                    res.redirect(redTo)
+                }
             }else{
                 next()
             }
