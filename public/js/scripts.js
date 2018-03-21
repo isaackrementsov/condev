@@ -67,13 +67,17 @@ var ajax = {
     },
     POST: function(req){
         var xhttp = new XMLHttpRequest();
-        xhttp.open('POST', req, true);
         xhttp.onreadystatechange = function(){
             if(this.readyState == 4 && this.status == 200) {
-                var container = document.getElementById('cont');
-                container.value = this;
+               if(cb){
+                   var self = this;
+                   cb(req, self)
+               }
             }
         }
+        xhttp.open('POST', req, true);
+        xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+        xhttp.send()
     }
 }
 window.onload = function(){
