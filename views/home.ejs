@@ -1,18 +1,11 @@
 <% include partials/header %>
 <% include partials/center%>
-<%if(!docs.length){%>
-    <p>Looking for a website? Search some ideas!</p>
-<%}%>
-<form action="/" method="get">
-        <input class="titleUpd"type="text" name="search" placeholder="Search..." autocomplete="off">
+<p>Looking for a website? Search some ideas!</p>
+
+<form>
+    <input class="titleUpd"type="text" name="search" placeholder="Search..." autocomplete="off" id="search">    
 </form>
-<%if(docs.length){%>
-    <p>Your search results...</p>
-    <% for(var i= 0; i < docs.length; i++){%>
-        <a href="/websites/<%=docs[i].document._id%>" class="shade result">
-            <h2><%=docs[i].document.name%></h2>
-            <p><%=docs[i].document.description%></p>
-        </a>
-    <%}%>
-<%}%> 
+<div id="cont">
+
+</div>
 <% include partials/footer %>

@@ -42,9 +42,14 @@ module.exports = {
                     errArr.push(errors[i].msg)
                 }
                 req.session.err = errArr;
-                if(redTo.indexOf(":")){
-                    var path = redTo.split(":")[1]
+                if(redTo.indexOf(":") != -1){
+                    var path = redTo.split(":")[1];
                     res.redirect(redTo.split(":")[0] + req.params[path])
+                }else if(redTo.indexOf("!") != -1){
+                    var path = redTo.split("!")[1];
+                    console.log(path + " " + req.session[path])
+                    var dev = req.session.dev ? "devs" : "clients";
+                    res.redirect(redTo.split("!")[0] + dev + "/" +  req.session[path])
                 }else{
                     res.redirect(redTo)
                 }

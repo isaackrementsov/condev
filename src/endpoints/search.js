@@ -1,8 +1,8 @@
 var dbFind = require("../core/dbFind");
 module.exports = {
     index: async function(req,res){
-        var docsArr = [];
-        if(req.query.search){
+        if(req.query.search && req.xhr){
+            var docsArr = [];
             var searches = req.query.search.split(" ");
             var websites = await dbFind.searchSites({});
             for(var i = 0; i < searches.length; i++){
@@ -25,14 +25,13 @@ module.exports = {
                         }
                     }
                 }
-                docsArr = docsArr.sort(function (a, b){
-                    return b.relevance - a.relevance
-                })
             }
+            docsArr = docsArr.sort(function (a, b){
+                return b.relevance - a.relevance
+            });
+            res.send(docsArr).status(200)
+        }else{
+            res.render("home", {session:req.session})
         }
-        res.render("home", {
-            docs:docsArr,
-            session:req.session
-        })
     }
 }

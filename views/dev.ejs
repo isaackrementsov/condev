@@ -9,7 +9,8 @@
                         <div class="layer">
                             <a href="" class="tiled">
                                 <h1><%=user.username%></h1>
-                                <h2>Developer</h2>
+                                <p>Developer</p>
+                                <p>Experience: <%=user.xp%></p>
                             </a>
                         </div>
                     </div>
@@ -37,7 +38,13 @@
                 <div class="posts">
                     <%for(var i = 0; i < jobs.length; i++){%>
                         <% var createdAt = jobs[i].applicants[jobs[i].applicants.map(function(a){return a.name}).indexOf(user.username)].createdAt%>
-                        <p class="msg-box">Applied for <%=jobs[i].name%> <span class="timestamp"><%=createdAt.format()%></span></p>
+                        <% var chosenAt = jobs[i].applicants[jobs[i].applicants.map(function(a){return a.name}).indexOf(user.username)].chosenAt%>
+                        <p class="msg-box">
+                            Applied for <%=jobs[i].name%> <span class="timestamp"><%=createdAt.timeAgo()%></span>
+                            <%if(chosenAt){%>
+                                <span class="timestamp" style="color:green">Selected <%=chosenAt.timeAgo()%> ago | +2</span>
+                            <%}%>
+                        </p>
                     <%}%>
                 </div>
             </div>

@@ -8,7 +8,7 @@
                         <input type="submit"  id="toggle8" value="Delete" class="submit">            
                     </form>
                 <%}%>
-                <%if(session.user == doc.author){%>
+                <%if(session.user == doc.author && !doc.closed){%>
                     <form action="/websites/close<%=doc._id%>" method="post">
                         <input type="submit"  id="toggle8" value="Close" class="submit">            
                     </form>
