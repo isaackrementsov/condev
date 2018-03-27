@@ -3,25 +3,18 @@ var dbCreate = require("../core/dbCreate");
 var dbUpdate = require("../core/dbUpdate");
 var ObjectId = require('mongodb').ObjectID;
 module.exports = {
-    index: function(req,res){
-        res.render("home", {session:req.session})
-    },
     renderLogin: function(req,res){
         res.render("login", {session:req.session})
     },
-    search: function(req,res){
-        req.session.search = req.body.search.split(" ");
-        res.redirect("/search")
-    },
     login: async function(req,res){
-        var user = await dbFind.findUser({'username':req.body.username.trim(), 'password':req.body.password});
+        var user = await dbFind.findUser({'username':req.body.username.trim(), 'password':req.body.password.trim()});
         if(user){
             req.session.userId = user._id;
             req.session.dev = user.dev;
             req.session.user = user.username;
             req.session.gravName = user.gravatar;
             if(user.dev){
-                res.redirect('/devs/' + req.session.user)
+                res.redirect('/devHome')
             }else{
                 res.redirect('/clients/' + req.session.user)
             }
@@ -41,12 +34,12 @@ module.exports = {
         }else{
             var dev = false
         }
-        dbCreate.newUser({username:req.body.username.trim(), password:req.body.password, dev:dev, gravatar:req.file.filename}, function(err, saved){
+        dbCreate.newUser({username:req.body.username.trim(), password:req.body.password.trim(), dev:dev, gravatar:req.file.filename, createdAt:Date.now()}, function(err, saved){
             if(err){
                 req.session.err = ["Please use a unique username"];
                 res.redirect("/signup")
             }else{
-                res.redirect("/login")
+                module.exports.login(req,res)
             }
         })
     },

@@ -1,0 +1,11 @@
+<% include partials/otherheader %>
+<% include partials/center %>
+<h1>Recommended Websites</h1>
+<%for(let i = 0; i < websites.length; i++){%>
+    <a href="/websites/<%=websites[i]._id%>" class="shade result inline">
+        <h2><%=websites[i].name%></h2>
+        <h2>|</h2>
+        <h2><%=websites[i].author%></h2>
+    </a>
+<%}%>
+<% include partials/footer %>

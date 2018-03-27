@@ -42,19 +42,27 @@ module.exports = {
                     errArr.push(errors[i].msg)
                 }
                 req.session.err = errArr;
-                res.redirect(redTo)
+                if(redTo.indexOf(":") != -1){
+                    var path = redTo.split(":")[1];
+                    res.redirect(redTo.split(":")[0] + req.params[path])
+                }else if(redTo.indexOf("!") != -1){
+                    var path = redTo.split("!")[1];
+                    console.log(path + " " + req.session[path])
+                    var dev = req.session.dev ? "devs" : "clients";
+                    res.redirect(redTo.split("!")[0] + dev + "/" +  req.session[path])
+                }else{
+                    res.redirect(redTo)
+                }
             }else{
                 next()
             }
         }
     },
-    checkAuth: async function(req,res,next){
-        var websiteId = ObjectId(req.params.websiteId);
-        var website = await dbFind.findSite({'_id':websiteId});
-        if(website.author == req.session.user){
+    checkIn: function(req,res,next){
+        if(req.session.user){
             next()
         }else{
-            res.redirect("/websites/" + req.params.websiteId)
+            res.redirect("/login");
         }
     }
 }

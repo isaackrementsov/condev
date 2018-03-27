@@ -65,8 +65,62 @@ String.prototype.toTitle = function(){
   str[0] = str[0].toUpperCase();
   return str.join("")
 }
+Date.prototype.timeAgo = function(){
+  var seconds = Math.floor((new Date() - this) / 1000);
+  var interval = Math.floor(seconds / 31536000);
+  if(interval > 1) return interval + " years";
+  interval = Math.floor(seconds / 2592000);
+  if(interval > 1) return interval + " months";
+  interval = Math.floor(seconds / 86400);
+  if(interval > 1) return interval + "d";
+  interval = Math.floor(seconds / 3600);
+  if(interval > 1) return interval + "h";
+  interval = Math.floor(seconds / 60);
+  if(interval > 1) return interval + "m";
+  return Math.floor(seconds) + "s";
+}
 Date.prototype.format = function(){
   return this.getMonth() + "/" + this.getDate() + "/" + this.getFullYear()
+}
+Array.prototype.search = function(property, term){
+  var objArr = [];
+  for(var i = 0; i < this.length; i++){
+    objArr.push(this[i][property])
+  }
+  return objArr.indexOf(term)
+}
+Array.prototype.objects = function(property){
+  var objArr = [];
+  for(var i = 0; i < this.length; i++){
+    objArr.push(this[i][property])
+  }
+  return objArr
+}
+String.prototype.fix = function(){
+  return this.trim().toLowerCase()
+}
+Array.prototype.mSearch = function(property, term){
+  var objArr = [];
+  for(var i = 0; i < this.length; i++){
+    objArr.push(this[i][property])
+  }
+  return objArr.mIndex(term)
+}
+Array.prototype.mIndex = function(term){
+  var results = [];
+  for(var i = 0; i < this.length; i++){
+    if(this[i] == term){
+      results.push(i)
+    }
+  }
+  return results
+}
+Array.prototype.mSelect = function(arr){
+  array = [];
+  for(var i = 0; i < arr.length; i++){
+    array.push(this[arr[i]])
+  }
+  return array
 }
 //IMPORTANT; sends requests to app to routes module in server folder
 routes(app);
