@@ -1,9 +1,21 @@
-function opendiv(value){
+function opendiv(value, d){
     var div = document.getElementById(value);
     if(div.style.display == "block"){
         div.style.display = " none"
+        if(d){
+            d.parentElement.style.right = "0vw";
+            d.parentElement.style.backgroundColor = "transparent";
+            d.parentElement.style.color = "#474747";
+            d.parentElement.innerHTML = `<i class="material-icons" onclick="opendiv('vertical', this)">menu</i>`
+        }
     }else{
-        div.style.display = "block"
+        div.style.display = "block";
+        if(d){
+            d.parentElement.style.right = "16vw";
+            d.parentElement.style.backgroundColor = "darkslategrey";
+            d.parentElement.style.color = "white";
+            d.parentElement.innerHTML = `<i class="material-icons" onclick="opendiv('vertical', this)">close</i>`
+        }
     }
 }
 function closediv(value){
@@ -49,6 +61,9 @@ function amalg(cls, cls2, id){
     for(var i = 0; i < array.length; i++){
         input.value = array[i].value + "," + array2[i].value + "]"
     }
+}
+function styleAtt(attribute, value){
+    this.style[attribute] = value
 }
 var ajax = {
     GET: function(req, cb){

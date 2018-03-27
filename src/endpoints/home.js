@@ -34,7 +34,7 @@ module.exports = {
         }else{
             var dev = false
         }
-        dbCreate.newUser({username:req.body.username.trim(), password:req.body.password.trim(), dev:dev, gravatar:req.file.filename}, function(err, saved){
+        dbCreate.newUser({username:req.body.username.trim(), password:req.body.password.trim(), dev:dev, gravatar:req.file.filename, createdAt:Date.now()}, function(err, saved){
             if(err){
                 req.session.err = ["Please use a unique username"];
                 res.redirect("/signup")

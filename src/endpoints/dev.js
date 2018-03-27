@@ -1,7 +1,7 @@
 var dbFind = require("../core/dbFind");
 var getRelevance = function(doc){
     var matches = Math.pow(doc.matched, 1/3);
-    var xp = -25 * Math.pow(0.98426, doc.points) + 25;
+    var xp = doc.points ?  -25 * Math.pow(0.98426, doc.points) + 25 : 10 * Math.pow(0.75, doc.createdAt/86400);
     var increase = doc.relevance*(xp/100);
     var relevance = increase ? matches + increase : matches
     return relevance
@@ -45,6 +45,7 @@ module.exports = {
                         var client = clients.find(function(client){return client.username == website.author});
                         website.matched++;
                         website.points += client.xp;
+                        website.createdAt = client.createdAt;
                         website.relevance = getRelevance(website);
                         return website
                     }
