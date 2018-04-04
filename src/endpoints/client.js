@@ -1,4 +1,4 @@
-var dbFind = require("../core/dbFind");
+var dbFind = require('../core/dbFind');
 module.exports = {    
     index: async function(req,res){
         //Wait for queries to execute
@@ -7,6 +7,6 @@ module.exports = {
         var websites = await dbFind.searchSites({'author':req.params.username});
         //Sort websites by date
         var websites = websites.reverse();
-        res.render("client", {websites:websites, user:user, session:req.session})
+        res.render('client', {websites:websites, user:user, session:req.session})
     }
 }

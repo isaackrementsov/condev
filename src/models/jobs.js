@@ -1,8 +1,5 @@
-var mongoose = require("mongoose");
+var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-mongoose.connection.on("open", function(){
-    console.log("mongoose connected!");
-});
 var jobSchema = new Schema({
     name: {type:String},
     websiteId: {type:String},
@@ -11,5 +8,5 @@ var jobSchema = new Schema({
     closed: {type:Boolean},
     author: {type:String}
 });
-var Job = mongoose.model("Job", jobSchema);
+var Job = mongoose.model('Job', jobSchema);
 module.exports = Job;

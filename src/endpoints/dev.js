@@ -1,4 +1,4 @@
-var dbFind = require("../core/dbFind");
+var dbFind = require('../core/dbFind');
 //Relevance algorithm: full explanation will be on this site: isaackrementsovnexus.weebly.com
 //Will return a relevance based on a document's client XP, client sign up date and matched languages
 var getRelevance = function(doc){
@@ -19,7 +19,7 @@ module.exports = {
             return b.applicants[b.applicants.map(function(app){return app.name}).indexOf(user.username)].createdAt - a.applicants[a.applicants.map(function(app){return app.name}).indexOf(user.username)].createdAt
             //console.log(a.applicants.indexOf(user.username))
         });
-        res.render("dev", {session:req.session, user:user, jobs:jobs})
+        res.render('dev', {session:req.session, user:user, jobs:jobs})
     },
     home: async function(req,res){
         //This controller uses algorithms to search the database for recommended jobs
@@ -68,7 +68,7 @@ module.exports = {
                 } 
             }))
         }
-        res.render("dHome", {
+        res.render('dHome', {
             session:req.session, 
             websites:expWeb.sort(function (a, b){
                     return b.relevance - a.relevance
