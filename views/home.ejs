@@ -1,12 +1,13 @@
 <% include partials/header %>
 <% include partials/center%>
-<h1 class="title">ConDev</h1>
-<p>Looking for a website? Search some ideas!</p>
+<div id="logo">
+    <img src="img/static/connect.svg" class="logo">
+    <h2>Looking for a website? Search some ideas!</h2>
+</div>
 <form class="inline">
-    <input class="bar titleUpd"type="text" name="search" placeholder="Search" autocomplete="off" id="search"> 
-    <i class="material-icons submit cta">search</i>   
+    <input class="titleUpd al"type="text" name="search" placeholder="Search" autocomplete="off" id="search" onkeyup="closediv('logo')"> 
+    <i class="material-icons submit cta big">search</i>   
 </form>
 <div id="cont">
-
 </div>
 <% include partials/footer %>

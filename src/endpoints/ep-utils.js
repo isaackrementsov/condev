@@ -1,35 +1,40 @@
 var dbFind = require('../core/dbFind');
 var ObjectId = require('mongodb').ObjectID;
+//Middleware helpers for common router validation
 module.exports = {
+    //Check if the user is a developer
     checkDev: function(req, res, next){
         if(!req.session.userId){
-            res.redirect("/login")
+            res.redirect('/login')
         }else if(!req.session.dev){
-            res.redirect("/clients/" + req.session.user)
+            res.redirect('/clients/' + req.session.user)
         }else{
             next()
         }
     },
+    //Check if user is a client
     checkClient: function(req,res, next){
         if(!req.session.userId){
-            res.redirect("/login")
+            res.redirect('/login')
         }else if(req.session.dev){
-            res.redirect("/devs/" + req.session.user)
+            res.redirect('/devs/' + req.session.user)
         }else{
             next()
         }
     },
+    //Check if user is not logged in
     checkUser: function(req,res,next){
         if(req.session.userId){
             if(req.session.dev){
-                res.redirect("/devs/" + req.session.user)
+                res.redirect('/devs/' + req.session.user)
             }else{
-                res.redirect("/clients/" + req.session.user)
+                res.redirect('/clients/' + req.session.user)
             }
         }else{
             next()
         }
     },
+    //Iterate through req.body to make sure nothing is empty and then redirect to desired url
     notEmpty: function(redTo){
         return function(req,res,next){
             for(key in req.body){
@@ -42,14 +47,14 @@ module.exports = {
                     errArr.push(errors[i].msg)
                 }
                 req.session.err = errArr;
-                if(redTo.indexOf(":") != -1){
-                    var path = redTo.split(":")[1];
-                    res.redirect(redTo.split(":")[0] + req.params[path])
-                }else if(redTo.indexOf("!") != -1){
-                    var path = redTo.split("!")[1];
-                    console.log(path + " " + req.session[path])
-                    var dev = req.session.dev ? "devs" : "clients";
-                    res.redirect(redTo.split("!")[0] + dev + "/" +  req.session[path])
+                if(redTo.indexOf(':') != -1){
+                    var path = redTo.split(':')[1];
+                    res.redirect(redTo.split(':')[0] + req.params[path])
+                }else if(redTo.indexOf('!') != -1){
+                    var path = redTo.split('!')[1];
+                    console.log(path + ' ' + req.session[path])
+                    var dev = req.session.dev ? 'devs' : 'clients';
+                    res.redirect(redTo.split('!')[0] + dev + '/' +  req.session[path])
                 }else{
                     res.redirect(redTo)
                 }
@@ -58,11 +63,12 @@ module.exports = {
             }
         }
     },
+    //Check if user is logged in
     checkIn: function(req,res,next){
         if(req.session.user){
             next()
         }else{
-            res.redirect("/login");
+            res.redirect('/login');
         }
     }
 }

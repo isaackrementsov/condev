@@ -15,8 +15,10 @@
                         </div>
                     </div>
                 <p style="color:transparent;margin-bottom:0vh"> || </p>
-                <p style="margin-top:0vh"><%=jobs.length%> applied jobs.</p>
-                <p>Knows<%=user.languages.map(function(l){return " " + l.name})%></p>
+                <p style="margin-top:0vh" class="inline"><%=jobs.length%> applied jobs.</p>
+                <p><%for(let i = 0; i < user.languages.length - 1; i++){%>
+                    <div class="bubble hidden" style="width:auto;"><%=user.languages[i].name%></div>
+                <%}%></p>
                 <%if(session.user == user.username){%>
                     <button class="submit" onclick="opendiv('language')">Add language</button>
                     <form method="post" action="/updatelang" id="language" style="display:none" class="hidden">
@@ -39,10 +41,10 @@
                     <%for(var i = 0; i < jobs.length; i++){%>
                         <% var createdAt = jobs[i].applicants[jobs[i].applicants.map(function(a){return a.name}).indexOf(user.username)].createdAt%>
                         <% var chosenAt = jobs[i].applicants[jobs[i].applicants.map(function(a){return a.name}).indexOf(user.username)].chosenAt%>
-                        <p class="msg-box">
+                        <p class="msg-box"> 
                             Applied for <%=jobs[i].name%> <span class="timestamp"><%=createdAt.timeAgo()%></span>
                             <%if(chosenAt){%>
-                                <span class="timestamp" style="color:green">Selected <%=chosenAt.timeAgo()%> ago | +2</span>
+                                <span class="timestamp" style="color:darkslategrey">Selected <%=chosenAt.timeAgo()%> ago | +2</span>
                             <%}%>
                         </p>
                     <%}%>
