@@ -1,6 +1,8 @@
 var dbFind = require('../core/dbFind');
 var ObjectId = require('mongodb').ObjectID;
+//Middleware helpers for common router validation
 module.exports = {
+    //Check if the user is a developer
     checkDev: function(req, res, next){
         if(!req.session.userId){
             res.redirect("/login")
@@ -10,6 +12,7 @@ module.exports = {
             next()
         }
     },
+    //Check if user is a client
     checkClient: function(req,res, next){
         if(!req.session.userId){
             res.redirect("/login")
@@ -19,6 +22,7 @@ module.exports = {
             next()
         }
     },
+    //Check if user is not logged in
     checkUser: function(req,res,next){
         if(req.session.userId){
             if(req.session.dev){
@@ -30,6 +34,7 @@ module.exports = {
             next()
         }
     },
+    //Iterate through req.body to make sure nothing is empty and then redirect to desired url
     notEmpty: function(redTo){
         return function(req,res,next){
             for(key in req.body){
@@ -58,6 +63,7 @@ module.exports = {
             }
         }
     },
+    //Check if user is logged in
     checkIn: function(req,res,next){
         if(req.session.user){
             next()

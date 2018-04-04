@@ -1,8 +1,10 @@
 var dbFind = require("../core/dbFind");
+//Relevance algorithm: full explanation will be on this site: isaackrementsovnexus.weebly.com
+//Will return a relevance based on a document's client XP, client sign up date and matched languages
 var getRelevance = function(doc){
     var matches = Math.pow(doc.matched, 1/3);
     var xp = doc.points ?  -25 * Math.pow(0.98426, doc.points) + 25 : 10 * Math.pow(0.75, doc.createdAt/86400);
-    var increase = doc.relevance*(xp/100);
+    var increase = matches*(xp/100);
     var relevance = increase ? matches + increase : matches
     return relevance
 }
@@ -13,10 +15,14 @@ module.exports = {
         var user = await dbFind.findUser({'username':req.params.username, dev:true}, {'password':false, 'creditCardNumber':false, '_id':false});
         var jobs = await dbFind.searchJobs({'applicants.name':req.params.username});
         //Sort jobs by date
-        jobs = jobs.reverse();
+        jobs = jobs.sort(function(a,b){
+            return b.applicants[b.applicants.map(function(app){return app.name}).indexOf(user.username)].createdAt - a.applicants[a.applicants.map(function(app){return app.name}).indexOf(user.username)].createdAt
+            //console.log(a.applicants.indexOf(user.username))
+        });
         res.render("dev", {session:req.session, user:user, jobs:jobs})
     },
     home: async function(req,res){
+        //This controller uses algorithms to search the database for recommended jobs
         var user = await dbFind.findUser({'username':req.session.user});
         var websites = await dbFind.searchSites({});
         var jobs = await dbFind.searchJobs({});
@@ -37,30 +43,36 @@ module.exports = {
         //Find websites by job ids
         for(let i = 0; i < expJobs.length; i++){
             expWeb = expWeb.concat(websites.filter(function(website){
+                //Set fields to 0, so that they will not return undefined or NaN
                 if(!website.matched) website.matched = 0;
                 if(!website.relevance) website.relevance = 0;
                 if(!website.points) website.points = 0;
-                if(expWeb.indexOf(website) == -1){
-                    if(website._id == expJobs[i].websiteId){
+                //Check if website id matches job ids
+                if(website._id == expJobs[i].websiteId){
+                    //Check if website is already in the list
+                    if(expWeb.indexOf(website) == -1){
+                        //Find the client who made the website
                         var client = clients.find(function(client){return client.username == website.author});
                         website.matched++;
                         website.points += client.xp;
                         website.createdAt = client.createdAt;
                         website.relevance = getRelevance(website);
+                        website.jobs = [];
+                        website.jobs.push(expJobs[i].name);
                         return website
+                    }else{
+                        website.matched++;
+                        website.relevance = getRelevance(website);
+                        website.jobs.push(expJobs[i].name)
                     }
-                }else{
-                    website.matched++;
-                    website.relevance = getRelevance(website)
-                }
+                } 
             }))
         }
         res.render("dHome", {
             session:req.session, 
             websites:expWeb.sort(function (a, b){
                     return b.relevance - a.relevance
-            }), 
-            jobs:expJobs
+            })
         })
     }
 }

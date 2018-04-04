@@ -50,7 +50,7 @@ app.use(expressValidator({
       param : formParam,
       msg   : msg,
       value : value
-    };
+    }
   }
 }));
 //Limits requests to 37 over 37.5 seconds (about 1 per second) to prevent DOS attacks

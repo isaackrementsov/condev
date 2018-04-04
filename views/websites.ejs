@@ -1,6 +1,8 @@
 <%include partials/otherheader%>
 <%include partials/center%>
 <div class="box">
+    <h1 class="subtitle">Create a website</h1>
+    <hr>
     <form action="/websites/create" method="post" id="form" onsubmit="amalg('jobName', 'numName', 'jobData')">
         <div class="inline">
             <input type="text" name="website" placeholder="App name" autocomplete="off" class="titleUpd">
@@ -11,7 +13,7 @@
         <div id="jobs">
         </div>
         <input type="hidden" style="display:none;" id="jobData" name="jobData">
-        <input type="submit" value="Create" class="submit">
+        <input type="submit" value="Create" class="submit cta lg">
     </form>
     <% include partials/error%>
 </div>
