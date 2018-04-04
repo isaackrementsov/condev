@@ -1,9 +1,9 @@
-var dbFind = require("../core/dbFind");
+var dbFind = require('../core/dbFind');
 module.exports = {
     index: async function(req,res){
         if(req.query.search && req.xhr){
             var docsArr = [];
-            var searches = req.query.search.split(" ");
+            var searches = req.query.search.split(' ');
             var websites = await dbFind.searchSites({});
             for(var i = 0; i < searches.length; i++){
                 var arr = [];
@@ -31,7 +31,7 @@ module.exports = {
             });
             res.send(docsArr).status(200)
         }else{
-            res.render("home", {session:req.session})
+            res.render('home', {session:req.session})
         }
     }
 }

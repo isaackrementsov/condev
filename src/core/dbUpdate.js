@@ -1,10 +1,12 @@
-var User = require("../models/users");
-var Website = require("../models/websites");
-var Job = require("../models/jobs");
+var User = require('../models/users');
+var Website = require('../models/websites');
+var Job = require('../models/jobs');
+var fs = require('fs');
 var updateSite = function(data, update, conditions, callback){
     Website.update(data, update, conditions, function(err,changed){
-        console.log(err)
-        console.log(changed)
+        if(err){
+            fs.writeFile('../../logs/db.json', err, function(err){})
+        }
         if(callback){
             callback(err,changed)
         }
@@ -12,6 +14,9 @@ var updateSite = function(data, update, conditions, callback){
 }
 var updateUser = function(data, update, conditions, callback){
     User.update(data, update, conditions, function(err,changed){
+        if(err){
+            fs.writeFile('../../logs/db.json', err, function(err){})
+        }
         if(callback){
             callback(err,changed)
         }
@@ -19,8 +24,9 @@ var updateUser = function(data, update, conditions, callback){
 }
 var updateJob = function(data, update, conditions, callback){
     Job.update(data, update, conditions, function(err,changed){
-        console.log(err)
-        console.log(changed)
+        if(err){
+            fs.writeFile('../../logs/db.json', err, function(err){})
+        }
         if(callback){
             callback(err,changed)
         }
