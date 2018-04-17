@@ -12,7 +12,7 @@ var rateLimiter = require('express-rate-limit');
 var fs = require('fs');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://127.0.0.1:27017/condev');
-mongoose.connection.on('open', function(){
+mongoose.connection.on('open', function(err){
     if(err){
         fs.writeFile('../../logs/db.json', err, function(err){})
     }

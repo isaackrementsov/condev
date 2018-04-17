@@ -3,7 +3,7 @@ var multer = require('multer');
 var path = require('path');
 var home = require('./endpoints/home');
 var client = require('./endpoints/client');
-var ep = require('./endpoints/ep-utils');
+var ep = require('./utils/ep-utils');
 var dev = require('./endpoints/dev');
 var websites = require('./endpoints/websites');
 var search = require('./endpoints/search');
@@ -16,7 +16,7 @@ var storage = multer.diskStorage({
         cb(null, Date.now() + path.extname(file.originalname))
   }
 }); 
-var upload = multer({ storage: storage });
+var upload = multer({storage: storage});
 module.exports =  function(app){
     app.use('/', router);
     router.get('/', search.index);
@@ -39,5 +39,6 @@ module.exports =  function(app){
     router.post('/jobs:jobId/addApp:websiteId/:userName', jobs.addApp);
     router.post('/jobs/create:websiteId', ep.notEmpty('/websites/:websiteId'), jobs.create);
     router.post('/jobs:jobId/apply:websiteId', ep.checkDev, jobs.apply);
+    router.post('/jobs:jobId/delete:websiteId/:name', ep.checkClient, jobs.delete);
     router.get('/:any', home.any)
 }
