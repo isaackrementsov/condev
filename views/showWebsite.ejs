@@ -16,14 +16,14 @@
             </div>
             <div class="header-pair">
                 <h1 onclick="opendiv('updateTitle')" id="title" class="subtitle"><%=doc.name%></h1>
-                <hr>
                 <%if(session.user == doc.author){%>
                     <form style="display:none;width:100%;padding:0" id="updateTitle" action="/websites/update<%=doc._id%>/name" method="post" onsubmit="opendiv('updateTitle')">
                         <input type="text" name="value" value="<%=doc.name%>" class="titleUpd" autocomplete="off">  
                     </form>
                 <%}%>
             </div>
-            <h2><a href="/clients/<%=doc.author%>"><%=doc.author%></a></h2>
+            <hr>
+            <h2 style="color:grey;"><a href="/clients/<%=doc.author%>"><%=doc.author%></a></h2>
             <%if(doc.closed){%>
                 <h2><%=doc.name%> is closed</h2>
             <%}%>
@@ -61,21 +61,25 @@
                     </div>
                 <%}%>
                 <div id="applicants<%=i%>" style="display:none">
-                    <p>Applicants:</p>
-                    <%for(var y = 0; y < jobs[i].applicants.length; y++){%>
-                        <div class="inline">
-                            <a href="/devs/<%=jobs[i].applicants[y].name%>" class="bttn"><%=jobs[i].applicants[y].name%></a>
-                            <p style="color:transparent"> || </p>
-                            <%if(session.user == doc.author){%>
-                                <form action="/jobs<%=jobs[i]._id%>/addApp<%=doc._id%>/<%=jobs[i].applicants[y].name%>" method="post">
-                                    <input type="submit" class="submit" value="Accept">
-                                </form>
-                                <form action="/jobs<%=jobs[i]._id%>/delApp<%=doc._id%>/<%=jobs[i].applicants[y].name%>" method="post">
-                                    <input type="submit" class="submit" value="Deny">
-                                </form>
-                            <%}%>
-                        </div>
-                    <%}%>
+                    <%if(jobs[i].applicants.length){%>
+                        <p>Applicants:</p>
+                        <%for(var y = 0; y < jobs[i].applicants.length; y++){%>
+                            <div class="inline">
+                                <a href="/devs/<%=jobs[i].applicants[y].name%>" class="bttn" style="font-size:3vh;text-decoration:underline;color:grey"><%=jobs[i].applicants[y].name%></a>
+                                <p style="color:transparent"> || </p>
+                                <%if(session.user == doc.author){%>
+                                    <form action="/jobs<%=jobs[i]._id%>/addApp<%=doc._id%>/<%=jobs[i].applicants[y].name%>" method="post">
+                                        <input type="submit" class="submit" value="Accept">
+                                    </form>
+                                    <form action="/jobs<%=jobs[i]._id%>/delApp<%=doc._id%>/<%=jobs[i].applicants[y].name%>" method="post">
+                                        <input type="submit" class="submit" value="Deny">
+                                    </form>
+                                <%}%>
+                            </div>
+                        <%}%>
+                    <%}else{%>
+                        <p>No applicants</p>
+                    <%}%>     
                 </div>
             <%}%>
             <%if(session.user == doc.author && !doc.closed){%>
