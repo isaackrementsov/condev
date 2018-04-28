@@ -96,4 +96,4 @@ app.listen(app.get('port'), function(err){
   }
 });
 //IMPORTANT; sends requests to app to routes module in server folder
-routes(app);
+routes(app)
