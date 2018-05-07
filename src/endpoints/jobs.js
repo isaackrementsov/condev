@@ -48,12 +48,14 @@ module.exports = {
         dbUpdate.updateJob({'_id':jobId, 'author':req.session.user}, {$pull:{'applicants':{'name':userName}}});
         res.redirect('/websites/' + req.params.websiteId)
     },
-    addApp: async function(req,res){
+    addApp: function(req,res){
         var jobId = ObjectId(req.params.jobId);
+        var websiteId = ObjectId(req.params.websiteId);
         var client = dbFind.findUser({'username':req.params.author});
         var userName = req.params.userName;
         dbUpdate.updateJob({'_id':jobId, 'applicants.name':userName, 'author':req.session.user}, {'applicants.$.chosen':true, 'applicants.$.chosenAt':Date.now(), 'closed':true});
         dbUpdate.updateUser({'username':userName}, {$inc:{'xp':2}});
+        dbUpdate.updateSite({'_id':websiteId}, {$push:{'members':{'name':userName}}});
         res.redirect('/websites/' + req.params.websiteId)
     }
 }

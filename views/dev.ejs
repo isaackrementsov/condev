@@ -16,7 +16,7 @@
                     </div>
                 <p style="color:transparent;margin-bottom:0vh"> || </p>
                 <p style="margin-top:0vh" class="inline"><%=jobs.length%> applied jobs.</p>
-                <p><%for(let i = 0; i < user.languages.length - 1; i++){%>
+                <p><%for(let i = 0; i < user.languages.length; i++){%>
                     <div class="bubble hidden" style="width:auto;"><%=user.languages[i].name%></div>
                 <%}%></p>
                 <%if(session.user == user.username){%>

@@ -12,7 +12,6 @@ module.exports = {
             req.session.userId = user._id;
             req.session.dev = user.dev;
             req.session.user = user.username;
-            req.session.gravName = user.gravatar;
             if(user.dev){
                 res.redirect('/devHome')
             }else{

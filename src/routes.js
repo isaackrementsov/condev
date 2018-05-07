@@ -10,7 +10,7 @@ var search = require('./endpoints/search');
 var jobs = require('./endpoints/jobs');
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/img/');
+    cb(null, '../public/img/');
   },
   filename: function (req, file, cb) {
         cb(null, Date.now() + path.extname(file.originalname))
