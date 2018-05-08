@@ -4,7 +4,7 @@ module.exports = {
         if(req.query.search && req.xhr){
             var docsArr = [];
             var searches = req.query.search.split(' ');
-            var websites = await dbFind.searchSites({});
+            var websites = await dbFind.search('Website', {});
             for(var i = 0; i < searches.length; i++){
                 var arr = [];
                 //Iterate through DB documents

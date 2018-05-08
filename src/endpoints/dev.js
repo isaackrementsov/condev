@@ -12,8 +12,8 @@ module.exports = {
     index: async function(req,res){
         //Wait for queries to execute
         //Make sure that no sensitive user information is imported (such as passwords, credit card numbers)
-        var user = await dbFind.findUser({'username':req.params.username, dev:true}, {'password':false, 'creditCardNumber':false, '_id':false});
-        var jobs = await dbFind.searchJobs({'applicants.name':req.params.username});
+        var user = await dbFind.find('User', {'username':req.params.username, dev:true}, {'password':false, 'creditCardNumber':false, '_id':false});
+        var jobs = await dbFind.search('Job', {'applicants.name':req.params.username});
         //Sort jobs by date
         jobs = jobs.sort(function(a,b){
             return b.applicants[b.applicants.map(function(app){return app.name}).indexOf(user.username)].createdAt - a.applicants[a.applicants.map(function(app){return app.name}).indexOf(user.username)].createdAt
@@ -23,10 +23,10 @@ module.exports = {
     },
     home: async function(req,res){
         //This controller uses algorithms to search the database for recommended jobs
-        var user = await dbFind.findUser({'username':req.session.user});
-        var websites = await dbFind.searchSites({});
-        var jobs = await dbFind.searchJobs({});
-        var clients = await dbFind.searchUsers({});
+        var user = await dbFind.find('User', {'username':req.session.user});
+        var websites = await dbFind.search('Website', {});
+        var jobs = await dbFind.search('Job', {});
+        var clients = await dbFind.search('User', {});
         var langs = user.languages;
         var expJobs = [];
         var expWeb = [];

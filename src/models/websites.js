@@ -7,7 +7,7 @@ var websiteSchema = new Schema({
     author: {type: String},
     closed: {type:Boolean},
     done: {type:Boolean},
-    members: [{name:String}],
+    members: [{name:String, job:String}],
     chats: [{message:String, author:String, madeAt: Date}]
 });
 var Website = mongoose.model('Website', websiteSchema);

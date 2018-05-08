@@ -2,18 +2,13 @@ var User = require('../models/users');
 var Website = require('../models/websites');
 var Job = require('../models/jobs');
 var fs = require('fs');
-var updateSite = function(data, update, conditions, callback){
-    Website.update(data, update, conditions, function(err,changed){
-        if(err){
-            fs.writeFile('../../logs/db.json', err, function(err){})
-        }
-        if(callback){
-            callback(err,changed)
-        }
-    })    
+var models = {
+    User: User,
+    Website: Website,
+    Job: Job
 }
-var updateUser = function(data, update, conditions, callback){
-    User.update(data, update, conditions, function(err,changed){
+var update = function(model, data, update, conditions, callback){
+    models[model].update(data, update, conditions, function(err, changed){
         if(err){
             fs.writeFile('../../logs/db.json', err, function(err){})
         }
@@ -22,8 +17,8 @@ var updateUser = function(data, update, conditions, callback){
         }
     })
 }
-var updateJob = function(data, update, conditions, callback){
-    Job.update(data, update, conditions, function(err,changed){
+var findOneAndUpdate = function(model, data, update, conditions, callback){
+    models[model].findOneAndUpdate(data, update, conditions, function(err, changed){
         if(err){
             fs.writeFile('../../logs/db.json', err, function(err){})
         }
@@ -33,7 +28,6 @@ var updateJob = function(data, update, conditions, callback){
     })
 }
 module.exports = {
-    updateUser: updateUser,
-    updateSite: updateSite,
-    updateJob: updateJob
+    update: update,
+    findOneAndUpdate: findOneAndUpdate
 }

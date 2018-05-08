@@ -7,7 +7,7 @@ module.exports = {
         res.render('login', {session:req.session})
     },
     login: async function(req,res){
-        var user = await dbFind.findUser({'username':req.body.username.trim(), 'password':req.body.password.trim()});
+        var user = await dbFind.find('User', {'username':req.body.username.trim(), 'password':req.body.password.trim()});
         if(user){
             req.session.userId = user._id;
             req.session.dev = user.dev;
@@ -33,7 +33,7 @@ module.exports = {
         }else{
             var dev = false
         }
-        dbCreate.newUser({username:req.body.username.trim(), password:req.body.password.trim(), dev:dev, gravatar:req.file.filename, createdAt:Date.now()}, function(err, saved){
+        dbCreate.create('User', {username:req.body.username.trim(), password:req.body.password.trim(), dev:dev, gravatar:req.file.filename, createdAt:Date.now()}, function(err, saved){
             if(err){
                 req.session.err = ['Please use a unique username'];
                 res.redirect('/signup')
@@ -48,9 +48,9 @@ module.exports = {
     },
     update: function(req,res){
         if(req.params.attr == 'lang' && req.session.dev){
-            dbUpdate.updateUser({'username':req.session.user}, {$push:{'languages':{'name':req.body.language}}});
+            dbUpdate.update('User', {'username':req.session.user}, {$push:{'languages':{'name':req.body.language}}});
         }else if(req.params.attr == 'bio'){
-            dbUpdate.updateUser({'username':req.session.user}, {'bio':req.body.description})
+            dbUpdate.update('User', {'username':req.session.user}, {'bio':req.body.description})
         }
         var dev = req.session.dev ? 'devs' : 'clients';
         res.redirect('/' + dev + '/' + req.session.user)

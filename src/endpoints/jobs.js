@@ -6,9 +6,9 @@ var ObjectId = require('mongodb').ObjectID;
 module.exports = {
     create: function(req,res){
         var websiteId = ObjectId(req.params.websiteId);
-        dbUpdate.updateSite({'_id':websiteId, 'author':req.session.user}, {$push:{'keywords':{'name':req.body.name, 'value':7, 'keyType':'job'}}}, {}, function(err, update){
+        dbUpdate.update('Website', {'_id':websiteId, 'author':req.session.user}, {$push:{'keywords':{'name':req.body.name, 'value':7, 'keyType':'job'}}}, {}, function(err, update){
             if(update.nModified != 0){
-                dbCreate.newJob({name:req.body.name, payment:req.body.payment, websiteId:websiteId, author:req.session.user})
+                dbCreate.create('Job', {name:req.body.name, payment:req.body.payment, websiteId:websiteId, author:req.session.user})
             }
         });
         res.redirect('/websites/' + req.params.websiteId) 
@@ -17,8 +17,8 @@ module.exports = {
         var jobId = ObjectId(req.params.jobId);
         var websiteId = ObjectId(req.params.websiteId);
         var user = req.session.user;
-        dbDelete.delJob({'_id':jobId, 'author':user});
-        dbUpdate.updateSite({'_id':websiteId, 'author':user}, {$pull:{'keywords':{'name':req.params.name, 'keyType':'job'}}});
+        dbDelete.del('Job', {'_id':jobId, 'author':user});
+        dbUpdate.update('Website', {'_id':websiteId, 'author':user}, {$pull:{'keywords':{'name':req.params.name, 'keyType':'job'}}});
         res.redirect('/websites/' + req.params.websiteId) 
     },
     apply: async function(req,res){
@@ -26,7 +26,7 @@ module.exports = {
         //Make sure applicant is developer
         if(req.session.dev){
             //Add new applicant
-            var job = await dbFind.findJob({'_id':jobId});
+            var job = await dbFind.find('Job', {'_id':jobId});
             var app = job.applicants.filter(function(app){
                 return app.name == req.session.user
             })
@@ -35,7 +35,7 @@ module.exports = {
                 req.session.err = ["You've already applied for this job!"]
             }else if(!job.closed){
                 //Add user as job applicant
-                dbUpdate.updateJob({'_id':jobId}, {$push: {'applicants':{'name':req.session.user, createdAt: Date.now()}}})
+                dbUpdate.update('Job', {'_id':jobId}, {$push: {'applicants':{'name':req.session.user, createdAt: Date.now()}}})
             }
         }else{
             req.session.err = ["You're not a developer!"]
@@ -45,17 +45,19 @@ module.exports = {
     delApp: function(req,res){
         var jobId = ObjectId(req.params.jobId);
         var userName = req.params.userName;
-        dbUpdate.updateJob({'_id':jobId, 'author':req.session.user}, {$pull:{'applicants':{'name':userName}}});
+        dbUpdate.update('Job', {'_id':jobId, 'author':req.session.user}, {$pull:{'applicants':{'name':userName}}});
         res.redirect('/websites/' + req.params.websiteId)
     },
     addApp: function(req,res){
         var jobId = ObjectId(req.params.jobId);
         var websiteId = ObjectId(req.params.websiteId);
-        var client = dbFind.findUser({'username':req.params.author});
         var userName = req.params.userName;
-        dbUpdate.updateJob({'_id':jobId, 'applicants.name':userName, 'author':req.session.user}, {'applicants.$.chosen':true, 'applicants.$.chosenAt':Date.now(), 'closed':true});
-        dbUpdate.updateUser({'username':userName}, {$inc:{'xp':2}});
-        dbUpdate.updateSite({'_id':websiteId}, {$push:{'members':{'name':userName}}});
+        dbUpdate.findAndUpdateJob({'_id':jobId, 'applicants.name':userName, 'author':req.session.user}, {'applicants.$.chosen':true, 'applicants.$.chosenAt':Date.now(), 'closed':true}, {}, function(err, doc){
+            if(doc){
+                dbUpdate.update('Website', {'_id':websiteId}, {$push:{'members':{'name':userName, 'job':doc.name}}});
+                dbUpdate.update('User', {'username':userName}, {$inc:{'xp':2}});
+            }
+        });
         res.redirect('/websites/' + req.params.websiteId)
     }
 }
