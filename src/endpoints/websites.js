@@ -20,14 +20,14 @@ module.exports = {
         dbCreate.create('Website', {name:req.body.website, keywords:keywords, author:req.session.user, description:req.body.description}, function(err,saved){
             var siteId = ObjectId(saved._id);
             var jobsArr = jobs.map(function(job){return {name:job.name, payment: job.payment, websiteId:siteId, author:req.session.user}});
-            dbCreate.newJob(jobsArr)
+            dbCreate.create('Job', jobsArr)
         });
         res.redirect('/clients/' + req.session.user)
     },
     show: async function(req,res){
         var id = ObjectId(req.params.websiteId);
         var website = await dbFind.find('Website', {'_id':id});
-        var jobs = await dbFind.searchJobs('Job', {'websiteId':id});
+        var jobs = await dbFind.search('Job', {'websiteId':id});
         res.render('showWebsite', {doc:website, jobs:jobs, session:req.session})
     },
     update: async function(req,res){
@@ -57,7 +57,7 @@ module.exports = {
     close: function(req,res){
         var websiteId = ObjectId(req.params.websiteId);
         var user = req.session.user;
-        dbUpdate.update('Site', {'_id':websiteId, 'author':user}, {'closed':true});
+        dbUpdate.update('Website', {'_id':websiteId, 'author':user}, {'closed':true});
         dbUpdate.update('Job', {'websiteId':websiteId}, {'closed':true}, {multi:true});
         res.redirect('/websites/' + req.params.websiteId)
     }

@@ -63,17 +63,17 @@ String.prototype.toTitle = function(){
   return str.join('')
 }
 Date.prototype.timeAgo = function(){
-  var seconds = Math.floor((new Date() - this) / 1000);
-  var interval = Math.floor(seconds / 31536000);
-  if(interval > 1) return interval + ' years';
+  var seconds = ((new Date() - this) / 1000);
+  var interval = (seconds / 31536000);
+  if(interval > 1) return Math.floor(interval) + ' years';
   interval = Math.floor(seconds / 2592000);
-  if(interval > 1) return interval + ' months';
-  interval = Math.floor(seconds / 86400);
-  if(interval > 1) return interval + 'd';
-  interval = Math.floor(seconds / 3600);
-  if(interval > 1) return interval + 'h';
-  interval = Math.floor(seconds / 60);
-  if(interval > 1) return interval + 'm';
+  if(interval > 1) return Math.floor(interval) + ' months';
+  interval = (seconds / 86400);
+  if(interval > 1) return Math.floor(interval) + 'd';
+  interval = (seconds / 3600);
+  if(interval > 1) return Math.floor(interval) + 'h';
+  interval = (seconds / 60);
+  if(interval > 1) return Math.floor(interval) + 'm';
   return Math.floor(seconds) + 's';
 }
 Date.prototype.format = function(){

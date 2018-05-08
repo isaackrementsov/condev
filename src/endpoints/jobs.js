@@ -52,7 +52,7 @@ module.exports = {
         var jobId = ObjectId(req.params.jobId);
         var websiteId = ObjectId(req.params.websiteId);
         var userName = req.params.userName;
-        dbUpdate.findAndUpdateJob({'_id':jobId, 'applicants.name':userName, 'author':req.session.user}, {'applicants.$.chosen':true, 'applicants.$.chosenAt':Date.now(), 'closed':true}, {}, function(err, doc){
+        dbUpdate.findOneAndUpdate('Job', {'_id':jobId, 'applicants.name':userName, 'author':req.session.user}, {'applicants.$.chosen':true, 'applicants.$.chosenAt':Date.now(), 'closed':true}, {}, function(err, doc){
             if(doc){
                 dbUpdate.update('Website', {'_id':websiteId}, {$push:{'members':{'name':userName, 'job':doc.name}}});
                 dbUpdate.update('User', {'username':userName}, {$inc:{'xp':2}});
