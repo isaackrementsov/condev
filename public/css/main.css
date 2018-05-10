@@ -1,14 +1,32 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Lato|Roboto');
+::-webkit-scrollbar {
+    width: 0.5vw;
+}
+::-webkit-scrollbar-track {
+    background: transparent; 
+}
+::-webkit-scrollbar-thumb {
+    background: lightgrey; 
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+::-webkit-scrollbar-track:hover {
+    width: 1vw;
+    background-color: #f1f1f1;
+}
 html, body {
     margin: 0;
-    font-family: 'Helvetica', arial, sans-serif;
+    font-family: 'Lato', arial, sans-serif;
     color: #474747;
     font-size: 3vh;
     text-decoration: none;
     background-color: whitesmoke;
+    background-size: 100%;
+    overflow-x: hidden;
 }
 .content {
-    padding: 2vh 2vw;
+    padding: 10vh 2vw;
     margin: 0;
 }
 .tiled {
@@ -18,21 +36,15 @@ html, body {
     width: 100%;
     top: 12vh;
 }
-.item:hover .layer {
-    color: white;
-    opacity: 1;
-}
 .item {
-    width: auto;
     background-repeat: no-repeat;
     position: relative;
-    float: top;
-    float: left;
-    margin-right: 1vw;
+    margin-right: 8.5vw !important;
+    margin-left: 8.5vw !important;
 }
 .item img {
-    width: auto;
-    height: 40vh;
+    width: 30vw;
+    height: auto;
 }
 .layer {
     top: 0;
@@ -42,14 +54,24 @@ html, body {
     width: 100%;
     height: 100%;
     background-color: rgba(100, 100, 100, 0.5);   
-    color: transparent;
-    transition: .5s ease;
+    transition: .02s ease;
     position: absolute;
-    opacity: 0;
+    opacity: 1;
+    margin-top: 0vh !important;
+    color: white;
 }
 .navbar h1 {
-    font-weight: bold;
+    font-weight: 300;
     font-size: 6vh;
+    position: fixed;
+    left: 3vw;
+}
+.navbar img {
+    position: fixed;
+    left: 0;
+    width: 3.2vw;
+    margin-top: 1vh;
+    margin-left: 0.5vw;
 }
 h1 {
     font-weight: normal;
@@ -62,8 +84,11 @@ a {
 .navbar {
     margin: 0;
     padding: 0;
-    position: sticky;
-    background-color: #FCFCFC;
+    position: fixed;
+    right:0;
+    width: 100vw;
+    height: 12vh;
+    z-index: 1;
 }
 .navbar li, .link {
    display: inline;
@@ -73,23 +98,26 @@ a {
     padding: 2vh 1.5vw;
     display: inline-block;
     margin: 0; 
-    transition: .5s ease-in-out;
+    transition: .02s ease-in-out;
     background-color: transparent;
     border-radius: 5px;
     border-style: hidden;
     font-size: 3vh;
     color: darkslategrey;
 }
-
-.navlink:hover, .submit:hover{
+.vertical .navlink {
+    color: whitesmoke;
+}
+a.navlink:hover, .submit:hover:not(.cta){
     background-color:darkslategrey;
     color: white;
 }
-a.navlink, input.navlink {
+a.navlink, button.navlink {
     float: right;
     margin-bottom: 1.5vh;
     margin-top: 1.7vh;
-    margin-right: 1.4vw;
+    margin-right: .5vw;
+    margin-left: .5vw;
 }
 .slide {
     display: none;
@@ -111,7 +139,7 @@ a.navlink, input.navlink {
     color: white;
     cursor: pointer;
     padding: 2vh;
-    transition: .5s ease-in-out;
+    transition: .2s ease-in-out;
 }
 .next {
     right: 0;
@@ -130,12 +158,9 @@ input[type="text"], input[type="number"], input[type="password"] {
     outline: none;
     font-weight: normal;
     background-color: transparent;
-    transition: .5s ease-in-out;
+    transition: .2s ease-in-out;
     height: 5vh;
     width: 10vw;
-}
-input:focus, input:hover {
-    border-bottom-color: darkslategray;
 }
 input:focus::placeholder, input:hover::placeholder, .textarea:focus::placeholder, .textarea:hover::placeholder{
     color: darkslategrey;
@@ -146,11 +171,14 @@ input::placeholder, .textarea::placeholder {
 .description {
     width: 40vw;
 }
-input.titleUpd{
+input.titleUpd, textarea.titleUpd{
     width: 15vw;
     height: 7vh;
     text-align: center;
     font-size: 3vh; 
+    border-style: solid !important;
+    text-align: left !important;
+    padding: .2vh 2vw;
 }
 .submit {
     border-style: solid;
@@ -162,7 +190,15 @@ input.titleUpd{
     max-width: 12vw;
     outline: none;
     font-size: 2vh; 
-    transition: .5s ease-in-out;
+    transition: .2s ease-in-out;
+}
+.bttn {
+    border-style: hidden;
+    background-color: transparent;
+    padding: 1.5vh 1.3vw;
+    max-width: 12vw;
+    outline: none;
+    font-size: 2.5vh; 
 }
 .textarea {
     border-style: solid;
@@ -175,7 +211,7 @@ input.titleUpd{
     background-color:  transparent;
     outline: none;
     font-size: 2.5vh;
-    transition: .5s ease-in-out;
+    transition: .2s ease-in-out;
     font-family: 'Helvetica', arial, sans-serif; 
     color: darkslategray;
 }
@@ -184,6 +220,9 @@ input.titleUpd{
 }
 .inline * {
     display: inline-block;
+}
+.al {
+    vertical-align: top;
 }
 .box .inline * {
     margin: .5vh 0;
@@ -231,4 +270,152 @@ form * {
 }
 .avatar {
     padding: 1.5vh 1.5vw;
+}
+.profile-box {
+    width: 30vw;
+    border-style: hidden;
+    border-radius: 5px;
+}
+.block :not(.hidden) {
+    display: block !important;
+}
+.profile-container {
+    width: 47vw;
+    background-color: #FAFAFA;
+    margin-top: 0;
+    position: absolute;
+    top: 0;
+    left: 3vw;
+    padding-bottom: 2vh;
+}
+.posts-container {
+    width: 47vw;
+    background-color: #FAFAFA;
+    margin-top: 0;
+    position: absolute;
+    top: 0;
+    right: 3vw;
+    padding-bottom: 2vh;
+}
+.sm-container {
+    width: 100%
+}
+.heading {
+    width: 100%;
+    margin-top: 0;
+    padding: 2vh 0vw;
+}
+.msg-box {
+    width: 85%;
+    padding: 1.5vh 0.7vw;
+    margin: 1vh 0vw;
+    text-align: left !important;
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: lightgray;
+    border-radius: 3px;
+}
+.profile {
+    width: 100vw;
+    height: auto;
+    display: block !important;
+    position: absolute;
+}
+.inside {
+    display: inline !important;
+}
+.timestamp {
+    text-align: right !important;
+    width: 100%;
+    color: grey;
+    font-size: 2.5vh;
+}
+.posts-container *, .profile-container *{
+    margin-top: 1vh;
+}
+.shade {
+    width: 85%;
+    padding: 1.5vh 0.7vw;
+    margin: 2vh 0vw;
+    border-left-style: solid;
+    border-left-color: grey;
+    background-color:#F2F2F2;
+}
+.descrip {
+    width: 40vw;
+}
+.posts {
+    width: 95%;
+    height: 65vh;
+    overflow: auto;
+}
+.result {
+    width: 80vh;
+    background-color: #FAFAFA;
+}
+.result p {
+    color: grey;
+}
+.vertical{
+    display: block;
+    width: 12.9vw;
+    height: 100vh;
+    position: fixed;
+    right:0;
+    background-color: darkslategrey;
+    margin: 0;
+    z-index: 2;
+    box-shadow: 0 0.1px 25px 0 rgba(0, 0, 0, 0.01);  
+}
+.vertical li {
+    right: 0;
+    display: block;
+    position: relative;
+    color: white;
+    margin-right: 2vw;
+}
+.transparent {
+    color: transparent;
+}
+.menu {
+    position: fixed;
+    right: 0;
+    z-index: 3;
+}
+.title {
+    font-size: 10vh;
+}
+.cta {
+    background-color: #F44336;
+    color: white;
+    border-color: #F44336;
+}
+.logo {
+    width: 20vw;
+    transition: .2s ease-in-out;
+}
+.lg {
+    font-size: 3vh !important;
+}
+button:focus {
+    outline: 0;
+}
+.big {
+    font-size: 3.7vh;
+    padding: 2vh 1vw;
+}
+.subtitle {
+    font-size: 7vh;
+}
+hr {
+    border-top: 1px solid #D1D1D1;
+}
+.bubble {
+    color: whitesmoke;
+    background-color: #F44336;
+    padding: 1vh 1vw;  
+    border-style: hidden;
+    border-radius: 5px;
+    font-size: 2.2vh;
+    margin-bottom: 0.7vh;
 }

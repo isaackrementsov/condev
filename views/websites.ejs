@@ -1,17 +1,19 @@
 <%include partials/otherheader%>
 <%include partials/center%>
 <div class="box">
+    <h1 class="subtitle">Create a website</h1>
+    <hr>
     <form action="/websites/create" method="post" id="form" onsubmit="amalg('jobName', 'numName', 'jobData')">
         <div class="inline">
             <input type="text" name="website" placeholder="App name" autocomplete="off" class="titleUpd">
             <input type="text" name="words" placeholder="Keywords ," autocomplete="off" class="titleUpd">
         </div>
-        <textarea name="description" placeholder="Description..." class="textarea" style="width:30vw;"></textarea>
+        <textarea name="description" placeholder="Description..." class="textarea" style="width:36vw;"></textarea>
         <button class="submit" type="button" onclick="multiExec(createDiv(jobName, 'jobs'), createDiv(numName, 'jobs'), createDiv(close, 'jobs'))">Add Job</button>
         <div id="jobs">
         </div>
         <input type="hidden" style="display:none;" id="jobData" name="jobData">
-        <input type="submit" value="Create" class="submit">
+        <input type="submit" value="Create" class="submit cta lg">
     </form>
     <% include partials/error%>
 </div>

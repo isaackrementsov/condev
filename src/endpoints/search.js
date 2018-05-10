@@ -1,18 +1,18 @@
-var dbFind = require("../core/dbFind");
+var dbFind = require('../core/dbFind');
 module.exports = {
     index: async function(req,res){
-        var Website = require("../models/websites");
-        if(req.session.search){
-            var websites = await dbFind.searchSites({});
-            for(var i = 0; i < req.session.search.length; i++){
-                var docsArr = [];
+        if(req.query.search && req.xhr){
+            var docsArr = [];
+            var searches = req.query.search.split(' ');
+            var websites = await dbFind.search('Website', {});
+            for(var i = 0; i < searches.length; i++){
                 var arr = [];
                 //Iterate through DB documents
                 for(var x = 0; x < websites.length; x++){
                     //Iterate through document keywords
                     for(var y = 0; y < websites[x].keywords.length; y++){
                         //Check if keyword matches search query
-                        if(websites[x].keywords[y].name.toLowerCase().indexOf(req.session.search[i].toLowerCase()) != -1){
+                        if(websites[x].keywords[y].name.toLowerCase().indexOf(searches[i].toLowerCase()) != -1){
                             //Check if result has already been found
                             if(arr.indexOf(websites[x]._id) == -1){
                                 //Add document to data which will be sent to client side
@@ -26,14 +26,12 @@ module.exports = {
                     }
                 }
             }
-            res.render("search", {
-                docs:docsArr.sort(function (a, b){
-                    return b.relevance - a.relevance
-                }), 
-                session:req.session
-            })
+            docsArr = docsArr.sort(function (a, b){
+                return b.relevance - a.relevance
+            });
+            res.send(docsArr).status(200)
         }else{
-            res.redirect("/")
+            res.render('home', {session:req.session})
         }
     }
 }

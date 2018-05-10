@@ -1,5 +1,13 @@
 <% include partials/header %>
 <% include partials/center%>
-<p>Looking for a website? Search some ideas!</p>
-<% include partials/search %>
+<div id="logo">
+    <img src="img/static/connect.svg" class="logo">
+    <h2>Looking for a website? Search some ideas!</h2>
+</div>
+<form class="inline">
+    <input class="titleUpd al"type="text" name="search" placeholder="Search" autocomplete="off" id="search" onkeyup="closediv('logo')"> 
+    <i class="material-icons submit cta big">search</i>   
+</form>
+<div id="cont">
+</div>
 <% include partials/footer %>

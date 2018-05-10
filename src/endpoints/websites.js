@@ -1,79 +1,64 @@
-var illegalWords = ["it", "in", "is", "a", "the", "for", "with", " ", "an", "", "this", "that", ".", ","];
-var fs = require("fs");
-var dbUpdate = require("../core/dbUpdate");
-var dbFind = require("../core/dbFind");
-var dbDelete = require("../core/dbDelete");
-var dbCreate = require("../core/dbCreate");
+var illegalWords = ['it', 'in', 'is', 'a', 'the', 'for', 'with', ' ', 'an', '', 'this', 'that', '.', ','];
+var fs = require('fs');
+var dbUpdate = require('../core/dbUpdate');
+var dbFind = require('../core/dbFind');
+var dbDelete = require('../core/dbDelete');
+var dbCreate = require('../core/dbCreate');
 var ObjectId = require('mongodb').ObjectID;
 module.exports = {
     index: function(req,res){
-        res.render("websites", {session:req.session})
+        res.render('websites', {session:req.session})
     },
     create: function(req,res){
         var array = [];
-        for(var i = 0; i < req.body.words.split(",").length; i++ ){
-                array.push({name:req.body.words.split(",")[i], value:2, keyType:"keyword"});
-        }
-        for(var i = 0; i < req.body.description.split(" ").length; i++ ){
-            if(illegalWords.indexOf(req.body.description.split(" ")[i].toLowerCase()) == -1){
-                array.push({name:req.body.description.split(" ")[i], value:1, keyType:"description"});
-            }
-        }
-        array.push({name:req.body.website, value:5, keyType:"name"});
-        array.push({name:req.session.user, value:6, keyType:"author"});
-        var jobData = req.body.jobData.split("]");
-        var jobs = [];
-        dbCreate.newWebsite({name:req.body.website, keywords:array, author:req.session.user, description:req.body.description}, function(err,saved){
+        var keywords = req.body.words.split(',').map(function(word){return {name:word, value:2, keyType:'keyword'}});
+        var description = req.body.description.split(' ').filter(function(word){return illegalWords.indexOf(word) === -1}).map(function(word){return {name:word, value:1, keyType:'description'}});
+        var jobs = JSON.parse(req.body.jobData).map(function(job){return {name:job.name, payment:parseInt(job.payment)}});
+        keywords = keywords.concat.apply(keywords, [description, jobs]);
+        keywords.push({name:req.body.website, value:5, keyType:'name'});
+        keywords.push({name:req.session.user, value:6, keyType:'author'});
+        dbCreate.create('Website', {name:req.body.website, keywords:keywords, author:req.session.user, description:req.body.description}, function(err,saved){
             var siteId = ObjectId(saved._id);
-            for(var i = 0; i < (jobData.length - 1); i++){
-                var name = jobData[i].split(",")[0];
-                var payment = parseFloat(jobData[i].split(",")[1]);
-                jobs.push({name:name, payment:payment, websiteId:siteId})
-            }
-            dbCreate.newJob(jobs)
+            var jobsArr = jobs.map(function(job){return {name:job.name, payment: job.payment, websiteId:siteId, author:req.session.user}});
+            dbCreate.create('Job', jobsArr)
         });
-        res.redirect("/clients/" + req.session.user)
+        res.redirect('/clients/' + req.session.user)
     },
     show: async function(req,res){
         var id = ObjectId(req.params.websiteId);
-        var website = await dbFind.findSite({'_id':id});
-        var jobs = await dbFind.searchJobs({'websiteId':id});
-        res.render("showWebsite", {doc:website, jobs:jobs, session:req.session})
+        var website = await dbFind.find('Website', {'_id':id});
+        var jobs = await dbFind.search('Job', {'websiteId':id});
+        res.render('showWebsite', {doc:website, jobs:jobs, session:req.session})
     },
     update: async function(req,res){
             var id = ObjectId(req.params.websiteId);
             var formValue = req.body.value;
             var attr = req.params.attr;
-            var val;
+            var user = req.session.user;
             if(formValue){
-                if(attr == "name"){
-                    //Set keyword value corresponding to update attribute
-                    val = 5;
-                    //Remove old title with core module update API
-                    dbUpdate.updateSite({'_id':id}, {$pull:{'keywords':{'keyType':attr}}});
-                    //Add new website title
-                    dbUpdate.updateSite({'_id':id}, {$push:{'keywords':{'value':val, 'name':formValue, 'keyType':attr}}});
-                    dbUpdate.updateSite({_id:id}, {'name':formValue})
-                }else if(attr = "description"){
-                    val = 1;
-                    var description = formValue.split(" ");
-                    var desc = [];
-                    for(var i = 0; i < description.length; i++){
-                        desc.push({name: description[i], keyType: attr, value: val})
-                    }
-                    //Remove all old description keywords
-                    dbUpdate.updateSite({'_id':id}, {$pull:{'keywords':{'value':val}}});
-                    //Add new description keywords
-                    dbUpdate.updateSite({'_id':id}, {$push:{'keywords':{$each:desc}}});
-                    dbUpdate.updateSite({'_id':id}, {'description':formValue})
+                var name;
+                if(attr == 'name'){
+                    name = [{keyType: attr, name: formValue, value: 5}]
+                }else if(attr = 'description'){
+                    name = formValue.split(' ').filter(function(word){return illegalWords.indexOf(word) === -1}).map(function(word){return {name:word, keyType:attr, value:1}});
                 }
+                dbUpdate.update('Website', {'_id':id, 'author':user}, {$pull:{'keywords':{'keyType':attr}}});
+                dbUpdate.update('Website', {'_id':id, 'author':user}, {attr:formValue, $push:{'keywords':{$each:name}}})
             }
-            res.redirect("/websites/" + req.params.websiteId)      
+            res.redirect('/websites/' + req.params.websiteId)      
     },
     delete: function(req,res){
         var id = ObjectId(req.params.websiteId);
-        dbDelete.delWebsite({'_id':id});
-        dbDelete.delJob({'websiteId':id});
-        res.redirect("/clients/" + req.session.user)
+        var user = req.session.user;
+        dbDelete.del('Website', {'_id':id, 'author':user});
+        dbDelete.del('Job', {'websiteId':id});
+        res.redirect('/clients/' + user)
+    },
+    close: function(req,res){
+        var websiteId = ObjectId(req.params.websiteId);
+        var user = req.session.user;
+        dbUpdate.update('Website', {'_id':websiteId, 'author':user}, {'closed':true});
+        dbUpdate.update('Job', {'websiteId':websiteId}, {'closed':true}, {multi:true});
+        res.redirect('/websites/' + req.params.websiteId)
     }
 }

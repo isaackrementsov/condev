@@ -1,19 +1,42 @@
 <% include partials/otherheader %>
 <% include partials/center %>
-<% if(user.username){%>
-    <% if(user.username == session.user){%>
-        <p style="color:green">You are logged in as <%=user.username%></p>
-    <%}%>
+<% if(user){%>
     <div class="inline">
-        <h1><%=session.user%></h1>
-        <img src="/img/<%=user.gravatar%>" class="img-box">
+        <div class="profile">
+            <div class="profile-container block center">
+                    <div class="item" style="margin-top:3vh;">
+                        <img src="/img/<%=user.gravatar%>" class="profile-box">
+                        <div class="layer">
+                            <a href="" class="tiled">
+                                <h1><%=user.username%></h1>
+                                <h2>Client</h2>
+                            </a>
+                        </div>
+                    </div>
+                <p style="color:transparent;margin-bottom:0vh"> || </p>
+                <p class="descrip"><%=user.bio%></p>
+                <%if(session.user == user.username){%>
+                    <button class="submit" onclick="opendiv('editor')">Edit bio</button>   
+                    <form method="post" action="/updatebio" id="editor" style="display:none" class="hidden">
+                        <textarea class="textarea" name="description"><%=user.bio%></textarea>
+                        <input type="submit" class="submit" value="Update">
+                    </form>
+                <%}%>               
+            </div>
+            <div class="posts-container block center">
+                <h1 class="heading" style="margin-top:0">Websites</h1>
+                <div class="posts">
+                    <%for(var i = 0; i < websites.length; i++){%>
+                        <a href="/websites/<%=websites[i]._id%>" class="msg-box">
+                            <h2><%=websites[i].name%></h2>
+                            <p><%=websites[i].description%></p>
+                        </a>
+                    <%}%>
+                </div>
+            </div>
+        </div>
     </div>
-    <% for(var i = 0; i < docs.length; i++){%>
-        <a href="/websites/<%=docs[i]._id%>">
-            <p><%=docs[i].name%></p>
-        </a>
-    <%}%>
 <%}else{%>
-    <p><%=user%></p>
+    <p>User not found</p>
 <%}%>
 <% include partials/footer %>
