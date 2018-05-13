@@ -8,7 +8,8 @@ var websiteSchema = new Schema({
     closed: {type:Boolean},
     done: {type:Boolean},
     members: [{name:String, job:String}],
-    chats: [{message:String, author:String, madeAt: Date}]
+    chats: [{message:String, author:String, madeAt: Date}],
+    githubRepository: {type:String}
 });
 var Website = mongoose.model('Website', websiteSchema);
 module.exports = Website;

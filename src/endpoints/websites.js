@@ -38,12 +38,13 @@ module.exports = {
             if(formValue){
                 var name;
                 if(attr == 'name'){
-                    name = [{keyType: attr, name: formValue, value: 5}]
+                    name = [{keyType: attr, name: formValue, value: 5}];
+                    dbUpdate.update('Website', {'_id':id, 'author':user}, {'name':formValue, $push:{'keywords':{$each:name}}})
                 }else if(attr = 'description'){
                     name = formValue.split(' ').filter(function(word){return illegalWords.indexOf(word) === -1}).map(function(word){return {name:word, keyType:attr, value:1}});
+                    dbUpdate.update('Website', {'_id':id, 'author':user}, {'description':formValue, $push:{'keywords':{$each:name}}})
                 }
-                dbUpdate.update('Website', {'_id':id, 'author':user}, {$pull:{'keywords':{'keyType':attr}}});
-                dbUpdate.update('Website', {'_id':id, 'author':user}, {attr:formValue, $push:{'keywords':{$each:name}}})
+                dbUpdate.update('Website', {'_id':id, 'author':user}, {$pull:{'keywords':{'keyType':attr}}})
             }
             res.redirect('/websites/' + req.params.websiteId)      
     },
