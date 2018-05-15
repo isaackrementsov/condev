@@ -40,7 +40,7 @@ module.exports = {
         }else{
             req.session.err = ["You're not a developer!"]
         }
-        res.redirect('/websites/' + req.params.websiteId) 
+        res.redirect('/websites/' + req.params.websiteId)
     },
     delApp: function(req,res){
         var jobId = ObjectId(req.params.jobId);

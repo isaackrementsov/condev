@@ -1,4 +1,4 @@
-<%include partials/otherheader%>
+<%include partials/header%>
 <%include partials/center%>
 <div class="box">
     <h1 class="subtitle">Create a website</h1>
@@ -8,7 +8,7 @@
             <input type="text" name="website" placeholder="App name" autocomplete="off" class="titleUpd">
             <input type="text" name="words" placeholder="Keywords ," autocomplete="off" class="titleUpd">
         </div>
-        <textarea name="description" placeholder="Description..." class="textarea" style="width:36vw;"></textarea>
+        <textarea name="description" placeholder="Description" class="textarea" style="width:36vw;"></textarea>
         <button class="submit" type="button" onclick="multiExec(createDiv(jobName, 'jobs'), createDiv(numName, 'jobs'), createDiv(close, 'jobs'))">Add Job</button>
         <div id="jobs">
         </div>
