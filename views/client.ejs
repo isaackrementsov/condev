@@ -4,21 +4,31 @@
     <div class="inline">
         <div class="profile">
             <div class="profile-container block center">
-                    <div class="item" style="margin-top:3vh;">
-                        <img src="/img/<%=user.gravatar%>" class="profile-box">
-                        <div class="layer">
-                            <a href="" class="tiled">
-                                <h1><%=user.username%></h1>
-                                <h2>Client</h2>
-                            </a>
-                        </div>
+                <div class="item" style="margin-top:3vh;">
+                    <img src="/img/<%=user.gravatar%>" class="profile-box">
+                    <div class="layer">
+                        <a href="" class="tiled">
+                            <h1><%=user.username%></h1>
+                            <h2>Client</h2>
+                        </a>
                     </div>
+                </div>
+                <%if(session.user == user.username){%>
+                    <form class="inline al" action="/updategravatar" method="post" enctype="multipart/form-data">
+                        <label for="file" style="display: inline-block !important;margin:0">
+                            <a class="input submit lg" style="font-size:2.3vh;width:8vh;margin:0">Avatar</a>
+                            <input type="file" name="avatar" style="display:none !important;" id="file">            
+                        </label>
+                        <input type="submit" value="Save" class="submit lg" style="display:inline-block !important;margin:0">
+                        <input type="hidden" value="mmmm" name="value"> 
+                    </form>
+                <%}%>
                 <p style="color:transparent;margin-bottom:0vh"> || </p>
                 <p class="descrip"><%=user.bio%></p>
                 <%if(session.user == user.username){%>
                     <button class="submit" onclick="opendiv('editor')">Edit bio</button>   
                     <form method="post" action="/updatebio" id="editor" style="display:none" class="hidden">
-                        <textarea class="textarea" name="description"><%=user.bio%></textarea>
+                        <textarea class="textarea" name="value"><%=user.bio%></textarea>
                         <input type="submit" class="submit" value="Update">
                     </form>
                 <%}%>               

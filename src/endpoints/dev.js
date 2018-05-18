@@ -36,7 +36,7 @@ module.exports = {
             expJobs = expJobs.concat(jobs.filter(function(job){
                 //Make sure job is not already part of array
                 if(expJobs.indexOf(job) == -1 && !job.closed){
-                    return job.name.toLowerCase().indexOf(langs[i].name.fix()) != -1
+                    return (job.name.toLowerCase().indexOf(langs[i].name.fix()) != -1) && (job.applicants.map(function(a){return a.name}).indexOf(req.session.user) == -1)
                 }
             }));
         }

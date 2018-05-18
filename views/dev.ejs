@@ -4,25 +4,36 @@
     <div class="inline">
         <div class="profile">
             <div class="profile-container block center">
-                    <div class="item" style="margin-top:3vh;">
-                        <img src="/img/<%=user.gravatar%>" class="profile-box">
-                        <div class="layer">
-                            <a href="" class="tiled">
-                                <h1><%=user.username%></h1>
-                                <p>Developer</p>
-                                <p>Experience: <%=user.xp%></p>
-                            </a>
+                <div class="item" style="margin-top:3vh;">
+                    <img src="/img/<%=user.gravatar%>" class="profile-box">
+                    <div class="layer">
+                        <div class="tiled">
+                            <h1><%=user.username%></h1>
+                            <p>Developer</p>
+                            <p>Experience: <%=user.xp%></p>
                         </div>
                     </div>
+                </div>
+                <%if(session.user == user.username){%>
+                    <form class="inline al" action="/updategravatar" method="post" enctype="multipart/form-data" id="changeImage">
+                        <label for="file" style="display: inline-block !important;margin:0">
+                            <a class="input submit lg" style="font-size:2.3vh;width:8vh;margin:0">Avatar</a>
+                            <input type="file" name="avatar" style="display:none !important;" id="file">            
+                        </label>
+                        <input type="hidden" value="mmmm" name="value"> 
+                        <input type="submit" value="Save" class="submit lg" style="display:inline-block !important;margin:0">
+                    </form>
+                <%}%>
                 <p style="color:transparent;margin-bottom:0vh"> || </p>
                 <p style="margin-top:0vh" class="inline"><%=jobs.length%> applied jobs.</p>
                 <p><%for(let i = 0; i < user.languages.length; i++){%>
                     <div class="bubble hidden" style="width:auto;"><%=user.languages[i].name%></div>
                 <%}%></p>
                 <%if(session.user == user.username){%>
-                    <button class="submit" onclick="opendiv('language')">Add language</button>
+                    <button class="submit" onclick="opendiv('language')">Add programming language</button>
+                    <p id="info" style="display:none !important">Finish a project when all tasks are done and you are ready to pay the members</p>
                     <form method="post" action="/updatelang" id="language" style="display:none" class="hidden">
-                        <input type="text" placeholder="Language" name="language">
+                        <input type="text" placeholder="Language" name="value">
                         <input type="submit" class="submit" value="Submit">
                     </form>  
                 <%}%>
@@ -30,7 +41,7 @@
                 <%if(session.user == user.username){%>
                     <button class="submit" onclick="opendiv('editor')">Edit bio</button>   
                     <form method="post" action="/updatebio" id="editor" style="display:none" class="hidden">
-                        <textarea class="textarea" name="description" ><%=user.bio%></textarea>
+                        <textarea class="textarea" name="value" ><%=user.bio%></textarea>
                         <input type="submit" class="submit" value="Update">
                     </form>
                 <%}%>               
@@ -38,15 +49,19 @@
             <div class="posts-container block center">
                 <h1 class="heading" style="margin-top:0">Activity</h1>
                 <div class="posts">
-                    <%for(var i = 0; i < jobs.length; i++){%>
-                        <% var createdAt = jobs[i].applicants[jobs[i].applicants.map(function(a){return a.name}).indexOf(user.username)].createdAt%>
-                        <% var chosenAt = jobs[i].applicants[jobs[i].applicants.map(function(a){return a.name}).indexOf(user.username)].chosenAt%>
-                        <p class="msg-box"> 
-                            Applied for <%=jobs[i].name%> <span class="timestamp"><%=createdAt.timeAgo()%></span>
-                            <%if(chosenAt){%>
-                                <span class="timestamp" style="color:darkslategrey">Selected <%=chosenAt.timeAgo()%> ago | +2</span>
-                            <%}%>
-                        </p>
+                    <%if(jobs.length !== 0){%>
+                        <%for(var i = 0; i < jobs.length; i++){%>
+                            <% var createdAt = jobs[i].applicants[jobs[i].applicants.map(function(a){return a.name}).indexOf(user.username)].createdAt%>
+                            <% var chosenAt = jobs[i].applicants[jobs[i].applicants.map(function(a){return a.name}).indexOf(user.username)].chosenAt%>
+                            <p class="msg-box"> 
+                                Applied for <%=jobs[i].name%> <span class="timestamp"><%=createdAt.timeAgo()%></span>
+                                <%if(chosenAt){%>
+                                    <span class="timestamp" style="color:darkslategrey">Selected <%=chosenAt.timeAgo()%> ago | +2</span>
+                                <%}%>
+                            </p>
+                        <%}%>
+                    <%}else{%>
+                        <p>No activity yet</p>
                     <%}%>
                 </div>
             </div>

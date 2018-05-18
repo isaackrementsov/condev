@@ -1,7 +1,7 @@
 function opendiv(value, d){
     var div = document.getElementById(value);
     if(div.style.display == "block"){
-        div.style.display = " none"
+        div.style.display = " none "
         if(d){
             d.parentElement.style.right = "0vw";
             d.parentElement.style.backgroundColor = "transparent";
@@ -9,13 +9,21 @@ function opendiv(value, d){
             d.parentElement.innerHTML = `<i class="material-icons" onclick="opendiv('vertical', this)">menu</i>`
         }
     }else{
-        div.style.display = "block";
+        div.style.display = "block ";
         if(d){
             d.parentElement.style.right = "16vw";
             d.parentElement.style.backgroundColor = "darkslategrey";
             d.parentElement.style.color = "white";
             d.parentElement.innerHTML = `<i class="material-icons" onclick="opendiv('vertical', this)">close</i>`
         }
+    }
+}
+function opendivstrong(value){
+    var div = document.getElementById(value);
+    if(div.style.display == "block"){
+        div.style.display = " none !important"
+    }else{
+        div.style.display = "block !important"
     }
 }
 function closediv(value){
@@ -29,7 +37,7 @@ function openMany(div1, div2){
 var jobName = {
     elemType: "input",
     type: "text",
-    placeholder: "Job name",
+    placeholder: "Name (ex. 'Java dev')",
     class: "titleUpd jobName", 
 } 
 var numName = {

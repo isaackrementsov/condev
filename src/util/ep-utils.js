@@ -35,10 +35,10 @@ module.exports = {
         }
     },
     //Iterate through req.body to make sure nothing is empty and then redirect to desired url
-    notEmpty: function(redTo){
+    notEmpty: function(fields, redTo){
         return function(req,res,next){
-            for(key in req.body){
-                req.checkBody(key, key.toTitle() + ' is required').notEmpty();
+            for(let i = 0; i < fields.length; i++){
+                req.checkBody(fields[i], fields[i].toTitle() + ' is required').notEmpty();
             }
             var errors = req.validationErrors();
             if(errors){
@@ -52,7 +52,6 @@ module.exports = {
                     res.redirect(redTo.split(':')[0] + req.params[path])
                 }else if(redTo.indexOf('!') != -1){
                     var path = redTo.split('!')[1];
-                    console.log(path + ' ' + req.session[path])
                     var dev = req.session.dev ? 'devs' : 'clients';
                     res.redirect(redTo.split('!')[0] + dev + '/' +  req.session[path])
                 }else{

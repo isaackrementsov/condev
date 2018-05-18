@@ -1,16 +1,20 @@
 <% include partials/header %>
 <% include partials/center %>
 <h1>Recommended Websites</h1>
-<%for(let i = 0; i < websites.length; i++){%>
-    <a href="/websites/<%=websites[i]._id%>" class="shade result" style="padding-bottom:4vh !important;">
-        <h2><%=websites[i].name%> | <%=websites[i].author%></h2>
-        <div class="inline al">
-            <%for(let y = 0; y < websites[i].jobs.length; y++){%>
-                <div class="bubble">
-                    <%=websites[i].jobs[y]%>
-                </div>
-            <%}%>
-        </div>
-    </a>
+<%if(websites.length !== 0){%>
+    <%for(let i = 0; i < websites.length; i++){%>
+        <a href="/websites/<%=websites[i]._id%>" class="shade result" style="padding-bottom:4vh !important;">
+            <h2><%=websites[i].name%> | <%=websites[i].author%></h2>
+            <div class="inline al">
+                <%for(let y = 0; y < websites[i].jobs.length; y++){%>
+                    <div class="bubble">
+                        <%=websites[i].jobs[y]%>
+                    </div>
+                <%}%>
+            </div>
+        </a>
+    <%}%>
+<%}else{%>
+    <p>You have no recommended websites. <a href="/devs/<%=session.user%>">Try adding some programming languages!</a></p>
 <%}%>
 <% include partials/footer %>

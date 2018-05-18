@@ -11,6 +11,7 @@ var routes = require('./routes');
 var rateLimiter = require('express-rate-limit');
 var fs = require('fs');
 var mongoose = require('mongoose');
+var methodOverride = require('method-override');
 mongoose.connect('mongodb://127.0.0.1:27017/condev');
 mongoose.connection.on('open', function(err){
     if(err){
@@ -57,6 +58,7 @@ var limiter = new rateLimiter({
   delayMs: 1
 });
 app.use(limiter);
+app.use(methodOverride());
 String.prototype.toTitle = function(){
   var str = this.split('');
   str[0] = str[0].toUpperCase();

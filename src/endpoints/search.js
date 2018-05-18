@@ -12,7 +12,7 @@ module.exports = {
                     //Iterate through document keywords
                     for(var y = 0; y < websites[x].keywords.length; y++){
                         //Check if keyword matches search query
-                        if(websites[x].keywords[y].name.toLowerCase().indexOf(searches[i].toLowerCase()) != -1){
+                        if((websites[x].keywords[y].name.toLowerCase().indexOf(searches[i].toLowerCase()) != -1) && !websites[x].closed){
                             //Check if result has already been found
                             if(arr.indexOf(websites[x]._id) == -1){
                                 //Add document to data which will be sent to client side

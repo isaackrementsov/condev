@@ -12,6 +12,8 @@
                     <form action="/websites/close<%=doc._id%>" method="post">
                         <input type="submit"  id="toggle8" value="Close" class="submit">            
                     </form>
+                    <i class="material-icons" onmouseover="opendiv('info')" onmouseout="opendiv('info')">info</i>
+                    <p id="info" style="display:none !important">Close a website when you have hired someone for all jobs.</p>
                 <%}%>
             </div>
             <div class="header-pair">
@@ -61,11 +63,11 @@
                     </div>
                 <%}%>
                 <div id="applicants<%=i%>" style="display:none">
-                    <%if(jobs[i].applicants.length){%>
-                        <p>Applicants:</p>
+                    <%if(jobs[i].applicants.length !== 0){%>
+                        <p style="margin:0">Applicants:</p>
                         <%for(var y = 0; y < jobs[i].applicants.length; y++){%>
-                            <div class="inline">
-                                <a href="/devs/<%=jobs[i].applicants[y].name%>" class="bttn" style="font-size:3vh;text-decoration:underline;color:grey"><%=jobs[i].applicants[y].name%></a>
+                            <div class="inline" style="margin:0">
+                                <a href="/devs/<%=jobs[i].applicants[y].name%>" class="bttn" style="font-size:3vh;text-decoration:underline;color:grey;padding:0"><%=jobs[i].applicants[y].name%></a>
                                 <p style="color:transparent"> || </p>
                                 <%if(session.user == doc.author){%>
                                     <form action="/jobs<%=jobs[i]._id%>/addApp<%=doc._id%>/<%=jobs[i].applicants[y].name%>" method="post">
@@ -85,11 +87,10 @@
             <%if(session.user == doc.author && !doc.closed){%>
                 <button type="button" class="submit cta" onclick="opendiv('newJobs')">Add job</button>
                 <form method="post" action="/jobs/create<%=doc._id%>" id="newJobs" style="display:none;">
-                    <div class="inline">
-                        <input type="text" name="name" placeholder="Job name" class="titleUpd">
-                        <input type="number" name="payment" placeholder="Payment (USD)" class="titleUpd">
-                        <button class="submit" style="padding:0vh 1vw;"><i class="material-icons">done</i></button>
-                    </div>
+                    <input type="text" name="name" placeholder="Job name" class="titleUpd" onfocus="opendiv('info2')" onfocusout="opendiv('info2')">
+                    <p id="info2" style="display:none !important">Include a programming language in your job (ex. 'Java developer')</p>
+                    <input type="number" name="payment" placeholder="Payment (USD)" class="titleUpd">
+                    <button class="submit">Add</button>
                 </form>
             <%}%>
             <% include partials/error%>

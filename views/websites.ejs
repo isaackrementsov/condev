@@ -6,10 +6,11 @@
     <form action="/websites/create" method="post" id="form" onsubmit="amalg('jobName', 'numName', 'jobData')">
         <div class="inline">
             <input type="text" name="website" placeholder="App name" autocomplete="off" class="titleUpd">
-            <input type="text" name="words" placeholder="Keywords ," autocomplete="off" class="titleUpd">
+            <input type="text" name="words" placeholder="Keywords " autocomplete="off" class="titleUpd" onfocus="opendiv('info')" onfocusout="opendiv('info')">
         </div>
+        <p id="info" style="display:none !important">Separate keywords by commas</p>
         <textarea name="description" placeholder="Description" class="textarea" style="width:36vw;"></textarea>
-        <button class="submit" type="button" onclick="multiExec(createDiv(jobName, 'jobs'), createDiv(numName, 'jobs'), createDiv(close, 'jobs'))">Add Job</button>
+        <button class="submit" type="button" onclick="multiExec(createDiv(jobName, 'jobs'), createDiv(numName, 'jobs'))">Add Job</button>
         <div id="jobs">
         </div>
         <input type="hidden" style="display:none;" id="jobData" name="jobData">

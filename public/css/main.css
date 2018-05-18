@@ -34,13 +34,14 @@ html, body {
     text-align: center;
     position: absolute;
     width: 100%;
-    top: 12vh;
+    margin-top: 10vh !important;
 }
 .item {
     background-repeat: no-repeat;
     position: relative;
     margin-right: 8.5vw !important;
     margin-left: 8.5vw !important;
+    min-height: 30vh;
 }
 .item img {
     width: 30vw;
@@ -53,7 +54,7 @@ html, body {
     right: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(100, 100, 100, 0.5);   
+    background-color: rgba(100, 100, 100, 0.8);   
     transition: .02s ease;
     position: absolute;
     opacity: 1;
@@ -89,6 +90,7 @@ a {
     width: 100vw;
     height: 12vh;
     z-index: 1;
+    background-color: whitesmoke;
 }
 .navbar li, .link {
    display: inline;
@@ -150,7 +152,7 @@ a.navlink, button.navlink {
 .next:hover, .prev:hover {
     background-color: darkslategrey;
 }
-input[type="text"], input[type="number"], input[type="password"] {
+input[type="text"], input[type="number"], input[type="password"], input[type="email"] {
     border-style: hidden;
     border-color: transparent;
     border-bottom-style: solid;

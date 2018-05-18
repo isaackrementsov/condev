@@ -9,7 +9,8 @@ var userSchema = new Schema({
     bio: {type:String},
     languages: [{name: String}],
     xp: {type:Number},
-    createdAt: {type:Date}    
+    createdAt: {type:Date},
+    email:{type:String}    
 });
 var User = mongoose.model('User', userSchema);
 module.exports = User;
