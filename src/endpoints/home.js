@@ -2,25 +2,33 @@ var dbFind = require('../core/dbFind');
 var dbCreate = require('../core/dbCreate');
 var dbUpdate = require('../core/dbUpdate');
 var ObjectId = require('mongodb').ObjectID;
+function comparePassword(obj, password, cb) {
+  bcrypt.compare(password, obj.password, function(err, isMatch) {
+    if(err) return cb(err);
+    cb(null, isMatch);
+  });
+}
 module.exports = {
     renderLogin: function(req,res){
         res.render('login', {session:req.session})
     },
     login: async function(req,res){
-        var user = await dbFind.find('User', {'username':req.body.username.trim(), 'password':req.body.password.trim()});
-        if(user){
-            req.session.userId = user._id;
-            req.session.dev = user.dev;
-            req.session.user = user.username;
-            if(user.dev){
-                res.redirect('/devHome')
+        var user = await dbFind.find('User', {'username':req.body.username.trim()});
+        comparePassword(user, req.body.password.trim(), function(err, isMatch){
+            if(user && isMatch){
+                req.session.userId = user._id;
+                req.session.dev = user.dev;
+                req.session.user = user.username;
+                if(user.dev){
+                    res.redirect('/devHome')
+                }else{
+                    res.redirect('/clients/' + req.session.user)
+                }
             }else{
-                res.redirect('/clients/' + req.session.user)
+                req.session.err = ['Incorrect credentials'];
+                res.redirect('/login')
             }
-        }else{
-            req.session.err = ['Incorrect credentials'];
-            res.redirect('/login')
-        }
+        })
     },
     renderSignup: function(req, res){
         res.render('signup', {session:req.session})
